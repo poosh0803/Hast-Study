@@ -41,6 +41,18 @@ export default function NavBar() {
             );
           })}
         </nav>
+        <Link
+          href="/admin"
+          aria-current={pathname === "/admin" ? "page" : undefined}
+          className={
+            "ml-auto rounded-full px-4 py-1.5 text-sm font-medium transition-colors " +
+            (pathname === "/admin"
+              ? "bg-foreground text-background"
+              : "text-foreground/50 hover:bg-foreground/5 hover:text-foreground")
+          }
+        >
+          Admin
+        </Link>
       </div>
     </header>
   );

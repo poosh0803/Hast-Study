@@ -11,6 +11,15 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    // Content files intentionally `export default { ... }` / `export
+    // default [ ... ]` directly — that's the drop-in contract (see README
+    // "Adding study content"), not a mistake this rule should flag.
+    files: ["content/**/*.js"],
+    rules: {
+      "import/no-anonymous-default-export": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

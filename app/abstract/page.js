@@ -1,26 +1,25 @@
-import EmptyState from "@/components/EmptyState";
+import ContentUploader from "@/components/ContentUploader";
+import SetList from "@/components/SetList";
 import { ABSTRACT_SETS } from "@/content/abstract/manifest";
+import { getSubjectProgress } from "@/lib/progress-store";
 
 export const metadata = { title: "Abstract — Hast Study" };
 
 export default function AbstractPage() {
+  const progress = getSubjectProgress("abstract");
+
   return (
     <section className="mx-auto max-w-4xl px-6 py-10">
-      <h1 className="text-2xl font-semibold tracking-tight">Abstract</h1>
-      <p className="mt-2 text-foreground/60">Abstract reasoning practice sets.</p>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Abstract</h1>
+          <p className="mt-2 text-foreground/60">Abstract reasoning practice sets.</p>
+        </div>
+        <ContentUploader subject="abstract" />
+      </div>
 
       <div className="mt-8">
-        {ABSTRACT_SETS.length === 0 ? (
-          <EmptyState subject="Abstract" />
-        ) : (
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {ABSTRACT_SETS.map((set) => (
-              <li key={set.id} className="rounded-xl border border-foreground/10 p-4">
-                {set.title}
-              </li>
-            ))}
-          </ul>
-        )}
+        <SetList subject="Abstract" basePath="/abstract" items={ABSTRACT_SETS} progress={progress} />
       </div>
     </section>
   );

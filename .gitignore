@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# runtime state — quiz progress written by lib/progress-store.js, not
+# authored content, shouldn't churn git history
+/data/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
