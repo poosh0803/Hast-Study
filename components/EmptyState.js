@@ -1,0 +1,15 @@
+export default function EmptyState({ subject }) {
+  return (
+    <div className="rounded-2xl border border-dashed border-foreground/15 px-6 py-16 text-center">
+      <p className="text-base font-medium">No {subject} sets yet</p>
+      <p className="mx-auto mt-2 max-w-sm text-sm text-foreground/60">
+        Drop a new file into{" "}
+        <code className="rounded bg-foreground/[.06] px-1 py-0.5 font-mono text-[0.85em]">
+          content/{subject.toLowerCase()}/
+        </code>{" "}
+        and list it in that folder&apos;s <code className="font-mono text-[0.85em]">manifest.js</code> — this
+        page will pick it up automatically.
+      </p>
+    </div>
+  );
+}

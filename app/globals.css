@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/*
+ * Warm "paper" palette instead of stark white/black — meant for long
+ * study sessions (less glare than pure white, softer than pure black
+ * text). Light theme only, on purpose — no dark-mode override.
+ */
+:root {
+  --background: #f7f3ea;
+  --foreground: #2f2b24;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
