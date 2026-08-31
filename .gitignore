@@ -40,6 +40,11 @@ yarn-error.log*
 # authored content, shouldn't churn git history
 /data/
 
+# copyrighted reference material (real ACER sample booklets etc.) — used
+# locally to design content against, never committed
+hast_sample_question_booklet_2023.pdf
+*.pdf
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
