@@ -346,18 +346,20 @@ place to see the whole imported history, not just what's attached to the
 set you're currently looking at.
 
 **Deleting it**: `components/EvaluationsList.js` (the client component
-`app/evaluations/page.js` renders everything through) puts a checkbox next
-to every overall note, every whole-piece note, and every per-question
-note. Checking any of them reveals a "N selected" bar with a **Delete
-selected** button — click it, confirm the popup, and just those get
-removed (each row also has its own one-click **Remove** button for a
-single item, same idea without the checkbox). Separately, **Clear all
-evaluations** at the top wipes everything in one go, still available for
-a full reset. Both send `DELETE /api/import-evaluation` —
-with a body (`{ batchIndexes, entries }`) it calls `deleteEvaluations()`
-for just those items; with no body it calls `clearAllEvaluations()`.
-`deleteEvaluations()` also removes now-empty `setId`/`subject` shells
-after a delete, so the store doesn't accumulate empty objects.
+`app/evaluations/page.js` renders everything through) is read-only by
+default — a **Select** button toggles select mode, which reveals a
+checkbox next to every overall note, every whole-piece note, and every
+per-question note (checking one is enough to delete just that one; no
+separate single-item button). Checking any of them reveals a "N selected"
+bar with a **Delete selected** button — click it, confirm the popup, and
+just those get removed; **Cancel** exits select mode and clears the
+selection. Separately, **Clear all evaluations** at the top (always
+visible, not gated by select mode) wipes everything in one go. Both send
+`DELETE /api/import-evaluation` — with a body (`{ batchIndexes, entries }`)
+it calls `deleteEvaluations()` for just those items; with no body it calls
+`clearAllEvaluations()`. `deleteEvaluations()` also removes now-empty
+`setId`/`subject` shells after a delete, so the store doesn't accumulate
+empty objects.
 
 Selection keys are client-side only (`batch:<index>` using the batch's
 original array position — `EvaluationsList` reverses the display order

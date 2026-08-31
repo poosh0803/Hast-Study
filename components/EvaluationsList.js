@@ -28,6 +28,7 @@ function parseKeys(keys) {
 }
 
 export default function EvaluationsList({ batches, subjects }) {
+  const [selectMode, setSelectMode] = useState(false);
   const [selected, setSelected] = useState(() => new Set());
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(null);
@@ -44,6 +45,11 @@ export default function EvaluationsList({ batches, subjects }) {
     });
   }
 
+  function toggleSelectMode() {
+    setSelectMode((prev) => !prev);
+    setSelected(new Set());
+  }
+
   async function performDelete(keys) {
     if (keys.length === 0) return;
     const label = keys.length === 1 ? "this note" : `${keys.length} notes`;
@@ -58,11 +64,7 @@ export default function EvaluationsList({ batches, subjects }) {
         body: JSON.stringify(parseKeys(keys)),
       });
       if (!res.ok) throw new Error("Delete failed.");
-      setSelected((prev) => {
-        const next = new Set(prev);
-        for (const key of keys) next.delete(key);
-        return next;
-      });
+      setSelected(new Set());
       router.refresh();
     } catch (err) {
       setError(err.message);
@@ -84,11 +86,23 @@ export default function EvaluationsList({ batches, subjects }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-end">
+      <div className="flex items-center justify-end gap-3">
+        <button
+          type="button"
+          onClick={toggleSelectMode}
+          className={
+            "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors " +
+            (selectMode
+              ? "border-foreground bg-foreground text-background"
+              : "border-foreground/25 hover:border-foreground hover:bg-foreground hover:text-background")
+          }
+        >
+          {selectMode ? "Cancel" : "Select"}
+        </button>
         <ClearEvaluationsButton />
       </div>
 
-      {selectedKeys.length > 0 && (
+      {selectMode && selectedKeys.length > 0 && (
         <div className="flex items-center justify-between gap-4 rounded-xl border border-red-700/30 bg-red-700/5 px-4 py-3">
           <p className="text-sm">{selectedKeys.length} selected</p>
           <button
@@ -116,30 +130,22 @@ export default function EvaluationsList({ batches, subjects }) {
                 return (
                   <div key={key} className="rounded-2xl border border-foreground/10 p-5">
                     <div className="flex items-start gap-3">
-                      <input
-                        type="checkbox"
-                        checked={selected.has(key)}
-                        onChange={() => toggle(key)}
-                        className="mt-1 h-5 w-5 shrink-0 accent-foreground"
-                        aria-label="Select this overall note"
-                      />
+                      {selectMode && (
+                        <input
+                          type="checkbox"
+                          checked={selected.has(key)}
+                          onChange={() => toggle(key)}
+                          className="mt-1 h-5 w-5 shrink-0 accent-foreground"
+                          aria-label="Select this overall note"
+                        />
+                      )}
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-3">
-                          <p className="text-xs text-foreground/40">
-                            {new Date(batch.importedAt).toLocaleString("en-AU", {
-                              dateStyle: "medium",
-                              timeStyle: "short",
-                            })}
-                          </p>
-                          <button
-                            type="button"
-                            onClick={() => performDelete([key])}
-                            disabled={pending}
-                            className="shrink-0 rounded-full border border-red-700/30 px-3 py-1 text-xs font-medium text-red-700 transition-colors hover:border-red-700 hover:bg-red-700 hover:text-background disabled:opacity-50"
-                          >
-                            Remove
-                          </button>
-                        </div>
+                        <p className="text-xs text-foreground/40">
+                          {new Date(batch.importedAt).toLocaleString("en-AU", {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                          })}
+                        </p>
                         <p className="mt-2 whitespace-pre-line text-sm leading-relaxed">
                           {batch.text}
                         </p>
@@ -166,24 +172,18 @@ export default function EvaluationsList({ batches, subjects }) {
 
                   {set.setLevelEvaluation && (
                     <div className="mt-2 flex items-start gap-3">
-                      <input
-                        type="checkbox"
-                        checked={selected.has(entryKey(subject, set.setId, "_set"))}
-                        onChange={() => toggle(entryKey(subject, set.setId, "_set"))}
-                        className="mt-1 h-5 w-5 shrink-0 accent-foreground"
-                        aria-label="Select this evaluation"
-                      />
+                      {selectMode && (
+                        <input
+                          type="checkbox"
+                          checked={selected.has(entryKey(subject, set.setId, "_set"))}
+                          onChange={() => toggle(entryKey(subject, set.setId, "_set"))}
+                          className="mt-1 h-5 w-5 shrink-0 accent-foreground"
+                          aria-label="Select this evaluation"
+                        />
+                      )}
                       <p className="min-w-0 flex-1 whitespace-pre-line text-sm leading-relaxed text-foreground/80">
                         {set.setLevelEvaluation}
                       </p>
-                      <button
-                        type="button"
-                        onClick={() => performDelete([entryKey(subject, set.setId, "_set")])}
-                        disabled={pending}
-                        className="shrink-0 rounded-full border border-red-700/30 px-3 py-1 text-xs font-medium text-red-700 transition-colors hover:border-red-700 hover:bg-red-700 hover:text-background disabled:opacity-50"
-                      >
-                        Remove
-                      </button>
                     </div>
                   )}
 
@@ -194,25 +194,19 @@ export default function EvaluationsList({ batches, subjects }) {
                         return (
                           <li key={q.questionId} className="border-t border-foreground/10 pt-3">
                             <div className="flex items-start gap-3">
-                              <input
-                                type="checkbox"
-                                checked={selected.has(key)}
-                                onChange={() => toggle(key)}
-                                className="mt-1 h-5 w-5 shrink-0 accent-foreground"
-                                aria-label="Select this note"
-                              />
+                              {selectMode && (
+                                <input
+                                  type="checkbox"
+                                  checked={selected.has(key)}
+                                  onChange={() => toggle(key)}
+                                  className="mt-1 h-5 w-5 shrink-0 accent-foreground"
+                                  aria-label="Select this note"
+                                />
+                              )}
                               <div className="min-w-0 flex-1 text-sm">
                                 {q.prompt && <p className="text-foreground/50">{q.prompt}</p>}
                                 <p className="mt-1 text-foreground/80">{q.evaluation}</p>
                               </div>
-                              <button
-                                type="button"
-                                onClick={() => performDelete([key])}
-                                disabled={pending}
-                                className="shrink-0 rounded-full border border-red-700/30 px-3 py-1 text-xs font-medium text-red-700 transition-colors hover:border-red-700 hover:bg-red-700 hover:text-background disabled:opacity-50"
-                              >
-                                Remove
-                              </button>
                             </div>
                           </li>
                         );
