@@ -182,11 +182,17 @@ and the server:
 2. regenerates that folder's `manifest.js` once, after every valid file in
    the batch has been saved (not once per file).
 
+Name the file `<subject>-week<N>-<topic-or-pack>.js` (e.g.
+`math-week2-linear-pack-2.js` — see `CONTENT-GUIDE.md`'s "Filenames" for
+the full rule); the filename itself doesn't affect anything functionally
+(the manifest just imports whatever's in the folder), it's purely for a
+readable directory listing.
+
 The content file's default export is either one set/prompt object, or an
 array of them:
 
 ```js
-// content/math/sets-M1.js
+// content/math/math-week1-fractions.js
 export default {
   id: "M1",
   week: 1,
@@ -197,7 +203,7 @@ export default {
 ```
 
 ```js
-// content/math/sets-M2-M3.js — one file, multiple sets
+// content/math/math-week1-ratios-pack.js — one file, multiple sets
 export default [
   { id: "M2", week: 1, weekTitle: "Pattern & Number", title: "Ratios" },
   { id: "M3", week: 2, weekTitle: "Measurement", title: "Units & conversions" },

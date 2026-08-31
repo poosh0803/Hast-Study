@@ -11,6 +11,16 @@ just lists `title` — there's no quiz-taking UI built for any subject yet.
 Treat the shapes below as the target schema so content written now and the
 UI built later agree, rather than a contract the app currently checks.
 
+## Filenames
+
+Name the file `<subject>-week<N>-<topic-or-pack>.js` — the subject
+(`math`, `abstract`, `read`, or `write`), the week number with no
+separator between "week" and the digits, then a kebab-case topic or pack
+label. Example: `math-week2-linear-pack-2.js`. That's the file to save
+and upload via that subject's tab (see the README's "Adding study
+content" for the upload mechanics) — this doesn't affect the `id` field
+inside the file, which keeps its own short-code convention below.
+
 ## Shared fields (every subject)
 
 Every set/prompt object — the default export itself, or each item of a
