@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import DataTable from "@/components/DataTable";
+import DataChart from "@/components/DataChart";
+import MobileDiagram from "@/components/MobileDiagram";
 
 export default function QuizSet({ set, subject, initialAnswers, evaluations }) {
   const [answers, setAnswers] = useState(() => {
@@ -109,6 +112,30 @@ export default function QuizSet({ set, subject, initialAnswers, evaluations }) {
               )}
               <p className="mt-2 whitespace-pre-line text-sm leading-relaxed">{passage.text}</p>
             </div>
+          ))}
+        </div>
+      )}
+
+      {Array.isArray(set.tables) && set.tables.length > 0 && (
+        <div className="mt-6 space-y-4">
+          {set.tables.map((table, ti) => (
+            <DataTable key={table.caption ?? ti} table={table} />
+          ))}
+        </div>
+      )}
+
+      {Array.isArray(set.charts) && set.charts.length > 0 && (
+        <div className="mt-6 space-y-4">
+          {set.charts.map((chart, ci) => (
+            <DataChart key={chart.caption ?? ci} chart={chart} />
+          ))}
+        </div>
+      )}
+
+      {Array.isArray(set.diagrams) && set.diagrams.length > 0 && (
+        <div className="mt-6 space-y-4">
+          {set.diagrams.map((diagram, di) => (
+            <MobileDiagram key={diagram.caption ?? di} diagram={diagram} />
           ))}
         </div>
       )}

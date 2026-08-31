@@ -36,6 +36,106 @@ default-exported array — carries:
 
 Everything else is subject-specific, described below.
 
+## Visual data: tables, charts, diagrams
+
+Available on any subject with `questions` (Math/Read/Abstract) — optional
+arrays sitting alongside `passages`, rendered above the questions in the
+order tables, then charts, then diagrams. These exist because the real
+ACER HAST sample booklet uses this kind of thing constantly (flower
+availability calendars, tournament tables, energy-consumption graphs, a
+weighing-balance mobile) — **all of it is structured data, never an
+actual image file**, which is exactly what makes it something you (an AI
+writing this JS file) can generate directly, the same way you'd write a
+`questions` array. Don't reference an uploaded image anywhere in this
+app — there's no image-upload mechanism, only these three.
+
+### `tables`
+
+```js
+tables: [
+  {
+    caption: "Flower availability", // optional
+    columns: ["Flower", "Jan", "Feb", "Mar"],
+    rows: [
+      ["R1", { text: "", color: "red" }, { text: "", color: "red" }, ""],
+      ["O1", "", { text: "", color: "orange" }, ""],
+    ],
+  },
+],
+```
+
+Each row is an array of cells, one per column. A cell is either a plain
+string/number, or `{ text, color }` to highlight it — `color` is one of
+`red`/`orange`/`yellow`/`green`/`blue`/`pink`/`purple`/`gray`.
+
+### `charts`
+
+```js
+charts: [
+  {
+    type: "bar", // or "line"
+    caption: "Energy consumption 1973–2014", // optional
+    categories: ["1973–74", "1978–79", "1983–84"], // x-axis labels
+    series: [
+      { name: "Black coal", color: "#2f2b24", values: [10, 15, 12] },
+      { name: "Oil", color: "#d97706", values: [20, 18, 22] },
+    ],
+  },
+],
+```
+
+`values` line up index-for-index with `categories`. `color` is any valid
+CSS colour (a hex code, or a keyword like `"blue"`). Only `bar` and
+`line` are supported — no stacked-area or pie yet.
+
+### `diagrams`
+
+For a weighing-balance / mobile puzzle — rods branching into shapes,
+some of which branch further:
+
+```js
+diagrams: [
+  {
+    caption: "Balance", // optional
+    totalMass: 20, // optional, shown at the top hook
+    massUnit: "kg", // optional, defaults to "kg"
+    root: {
+      children: [
+        {
+          shape: "rect", color: "#3b82f6",
+          children: [
+            { shape: "oval", color: "#10b981" },
+            { shape: "oval", color: "#10b981" },
+          ],
+        },
+        {
+          children: [
+            { shape: "triangle", color: "#eab308" },
+            {
+              shape: "hexagon", color: "#9333ea",
+              children: [
+                { shape: "square", color: "#ec4899" },
+                { shape: "square", color: "#ec4899" },
+                { shape: "square", color: "#ec4899" },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  },
+],
+```
+
+Every node (including `root`) is `{ shape?, color?, label?, children? }`.
+`shape` is one of `rect`/`square`/`oval`/`circle`/`triangle`/`hexagon` —
+omit it for a plain junction where a rod just splits further with no
+weight of its own (like `root`, and the unlabelled node splitting into
+the triangle and hexagon above). `label` is an optional short string
+drawn under a shape (e.g. `"3 kg"`) once you know/want to reveal a mass.
+**You only ever describe the tree** — spacing, rod lengths, and the
+actual drawing are computed by the app; don't try to specify coordinates.
+
 ## Math
 
 - `topic` (string, optional) — short tag, e.g. `"Number & Pattern"`,
@@ -92,11 +192,16 @@ Same shape as Math (`questions` with `id`/`prompt`/`choices`/`answer`/
   `"a-next"`, `"a-mid"`, `"a-grid"` for Abstract), for future filtering by
   skill rather than by topic.
 
-Abstract reasoning here is **text-described**, not image-based — e.g. "A
-counter shows 3, then 5, then 7. Next is" with text choices like `"9"`.
-There's no diagram renderer in this app, so don't reference a figure/image
-a question depends on; keep every abstract question answerable from the
-prompt text alone.
+Abstract reasoning here is mostly still **text-described**, not
+image-based — e.g. "A counter shows 3, then 5, then 7. Next is" with text
+choices like `"9"`. The `tables`/`charts`/`diagrams` fields above cover
+some real Abstract-style visual content (e.g. a family-tree or
+weighing-style logic puzzle, which is just a `diagrams` mobile without
+the mass numbers), but **not** classic rotating/shifting-shape "next in
+sequence" items (a shape spinning 45° each frame, a dot moving around a
+pentagon) — there's no renderer for that yet. If a question depends on
+one of those, keep it text-described instead; don't invent a figure this
+app can't draw.
 
 ## Write
 

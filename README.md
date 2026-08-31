@@ -128,7 +128,11 @@ components/
   ContentUploader.js    the Upload button on each tab page
   SetList.js             groups a subject's items by week, links each to its detail page
   QuizSet.js              renders a set's `questions` as a self-checking multiple-choice quiz,
-                            shows an imported per-question evaluation note if there is one
+                            shows an imported per-question evaluation note if there is one,
+                            renders `tables`/`charts`/`diagrams` above the questions if present
+  DataTable.js             renders a `tables` entry — plain or colour-highlighted-cell table
+  DataChart.js             renders a `charts` entry — inline SVG bar/line chart, no library
+  MobileDiagram.js         renders a `diagrams` entry — a weighing-balance/mobile tree diagram
   WritePrompt.js          timer + plan/shape + autosaving textarea for a Write prompt,
                             shows an imported whole-piece evaluation note if there is one
   PromptView.js           last-resort fallback (raw field dump)
@@ -241,14 +245,24 @@ trailing "Unsorted" group instead of being dropped.
 Each card on a subject tab links to `<basePath>/<id>` (e.g. `/math/M1`).
 An item with a `questions` array renders `components/QuizSet.js` —
 multiple choice, click an option, it locks in and shows correct/incorrect
-plus the `explanation`, with a running score at the top. An item with no
-`questions` but a `stimulus` or `kind` (Write prompts — see
-`CONTENT-GUIDE.md`) renders `components/WritePrompt.js` instead: the
-prompt, its `plan` steps and `shape` guidance, a `minutes`-based countdown
-timer (Start/Pause/Reset, purely client-side, doesn't persist across a
-reload), and a textarea that autosaves 1s after you stop typing (and
-immediately on blur) via `POST /api/draft`. Anything else falls back to
-`components/PromptView.js`, a plain dump of its fields.
+plus the `explanation`, with a running score at the top. Above the
+questions, it also renders any `tables`/`charts`/`diagrams` the set
+carries (see `CONTENT-GUIDE.md` "Visual data") via
+`components/DataTable.js`, `DataChart.js`, and `MobileDiagram.js` — all
+three take structured data only, nothing image-based, so an AI writing
+the content file can generate them the same way it writes `questions`.
+Designed directly off the real ACER HAST sample booklet's own visual
+content (flower-availability calendars, tournament tables, an
+energy-consumption graph, a weighing-balance mobile) — none of that is an
+image in the real test either, once you look at it as data instead of a
+picture. An item with no `questions` but a `stimulus` or `kind` (Write
+prompts — see `CONTENT-GUIDE.md`) renders `components/WritePrompt.js`
+instead: the prompt, its `plan` steps and `shape` guidance, a
+`minutes`-based countdown timer (Start/Pause/Reset, purely client-side,
+doesn't persist across a reload), and a textarea that autosaves 1s after
+you stop typing (and immediately on blur) via `POST /api/draft`. Anything
+else falls back to `components/PromptView.js`, a plain dump of its
+fields.
 
 ### Progress
 
