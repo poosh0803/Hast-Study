@@ -4,6 +4,7 @@ import { MATH_SETS } from "@/content/math/manifest";
 import { READ_SETS } from "@/content/read/manifest";
 import { WRITE_PROMPTS } from "@/content/write/manifest";
 import { getAllEvaluations } from "@/lib/evaluation-store";
+import ClearEvaluationsButton from "@/components/ClearEvaluationsButton";
 
 export const metadata = { title: "Evaluations — Hast Study" };
 
@@ -29,11 +30,16 @@ export default function EvaluationsPage() {
 
   return (
     <section className="mx-auto max-w-4xl px-6 py-10">
-      <h1 className="text-2xl font-semibold tracking-tight">Evaluations</h1>
-      <p className="mt-2 text-foreground/60">
-        Feedback imported through Admin — an overall note per import, and specific notes on the
-        question or piece they&apos;re about.
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Evaluations</h1>
+          <p className="mt-2 text-foreground/60">
+            Feedback imported through Admin — an overall note per import, and specific notes on
+            the question or piece they&apos;re about.
+          </p>
+        </div>
+        {!isEmpty && <ClearEvaluationsButton />}
+      </div>
 
       {isEmpty ? (
         <p className="mt-8 text-sm text-foreground/60">

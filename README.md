@@ -129,6 +129,7 @@ components/
   PromptView.js           last-resort fallback (raw field dump)
   AdminFileList.js       the checkboxes + Export/Delete selected on the Admin tab
   EvaluationImporter.js   the Import evaluation file button on the Admin tab
+  ClearEvaluationsButton.js  the Clear all evaluations button on the Evaluations tab
   CopyGuideButton.js      the Copy guide button on the Guide tab
 
 content/
@@ -155,7 +156,8 @@ app/api/progress/route.js           POST records an answer, DELETE resets/clears
 app/api/draft/route.js              POST saves the current draft text for a Write prompt
 app/api/export/route.js             POST { items: [...] } downloads a JSON file of just
                                       those files' questions/drafts + your answers + blank evaluation fields
-app/api/import-evaluation/route.js  POST a filled-in export file, merges its evaluations in
+app/api/import-evaluation/route.js  POST a filled-in export file merges its evaluations in,
+                                      DELETE clears all of them
 ```
 
 ## Adding study content
@@ -341,6 +343,14 @@ batch notes: the **Evaluations** tab (`app/evaluations/page.js`) reads
 subject's per-set notes grouped and linked back to the set — the one
 place to see the whole imported history, not just what's attached to the
 set you're currently looking at.
+
+**Clearing it**: the Evaluations tab has a **Clear all evaluations**
+button (only shown when there's something to clear) —
+`components/ClearEvaluationsButton.js` sends `DELETE
+/api/import-evaluation`, which calls `clearAllEvaluations()` and wipes
+`data/evaluations.json` back to empty. All-or-nothing, same granularity
+re-importing already works at — there's no per-question or per-batch
+delete yet.
 
 ### Manual (no server needed)
 

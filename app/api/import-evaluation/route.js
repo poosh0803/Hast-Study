@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { SUBJECTS } from "@/lib/content-manifest";
-import { importEvaluations } from "@/lib/evaluation-store";
+import { importEvaluations, clearAllEvaluations } from "@/lib/evaluation-store";
 
 export const runtime = "nodejs";
 
@@ -26,4 +26,10 @@ export async function POST(request) {
   const { overallSaved, questionCount } = importEvaluations({ overallEvaluation, subjects });
 
   return NextResponse.json({ ok: true, overallSaved, questionCount });
+}
+
+// Clears every imported evaluation — all-or-nothing, see clearAllEvaluations().
+export async function DELETE() {
+  clearAllEvaluations();
+  return NextResponse.json({ ok: true });
 }
