@@ -98,6 +98,8 @@ string/number, or `{ text, color }` to highlight it — `color` is one of
 
 ### `charts`
 
+Two shapes, picked by `type`:
+
 ```js
 charts: [
   {
@@ -112,9 +114,40 @@ charts: [
 ],
 ```
 
-`values` line up index-for-index with `categories`. `color` is any valid
-CSS colour (a hex code, or a keyword like `"blue"`). Only `bar` and
-`line` are supported — no stacked-area or pie yet.
+`values` line up index-for-index with `categories`. Only `bar` and
+`line` are supported here — no stacked-area or pie yet.
+
+```js
+charts: [
+  {
+    type: "scatter",
+    caption: "Bark smoothness vs trunk diameter", // optional
+    xLabel: "Trunk diameter (cm)", // optional, shown under the x-axis
+    yLabel: "Percentage of smooth bark", // optional, shown beside the y-axis
+    series: [
+      {
+        name: "Trees", // only shown in a legend if there's more than one series
+        color: "#92400e",
+        points: [
+          { x: 2, y: 98 },
+          { x: 13, y: 22 },
+          { x: 48, y: 0 },
+        ],
+      },
+    ],
+  },
+],
+```
+
+For `scatter`, each series has `points` (an array of `{ x, y }`) instead
+of `values` — there's no shared `categories` axis, since each point
+carries its own x and y. Use this for correlation-style plots (e.g. "as
+X increases, does Y increase or decrease" — this is exactly the
+ACER-style scatter plot with two loose axis labels and a cloud of dots,
+not a bar/line chart with named categories). Both axes start at 0 and
+scale to fit the data automatically — you only supply the raw x/y
+numbers. `color` (on either shape) is any valid CSS colour (a hex code,
+or a keyword like `"blue"`).
 
 ### `diagrams`
 
