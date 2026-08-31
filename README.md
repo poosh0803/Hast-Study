@@ -34,6 +34,24 @@ npm run build
 npm run start
 ```
 
+### Running under pm2
+
+`ecosystem.config.js` runs `npm run dev` under pm2, not a production
+build — on purpose, see the comment at the top of that file: content
+uploads only take effect live under `next dev` (a production build bakes
+`content/` imports into the compiled bundle). For a single-user LAN app
+the lower performance doesn't matter; keeping uploads instant does.
+
+```bash
+pm2 start ecosystem.config.js
+pm2 save        # persist across reboots
+pm2 startup     # one-time: prints the OS boot-hook command to run
+```
+
+Switching to a production build instead (better performance, but you have
+to `npm run build && pm2 restart hast-study` after every content upload)
+is a one-line change in `ecosystem.config.js` — see the comment there.
+
 ## Tabs
 
 - **Home** — landing page, links into each section.
