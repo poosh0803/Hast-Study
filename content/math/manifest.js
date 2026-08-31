@@ -2,6 +2,7 @@
 // Add content via Upload in the app — do not hand-edit this file, it
 // gets overwritten on the next upload to this subject.
 
+import content_math_week10_TEST from "./math-week10-TEST.js";
 import content_set_math_extra_1 from "./set-math-extra-1.js";
 import content_set_math_extra_2 from "./set-math-extra-2.js";
 import content_set_math_extra_3 from "./set-math-extra-3.js";
@@ -11,4 +12,4 @@ import content_set_math_patterns_number from "./set-math-patterns-number.js";
 import content_set_math_space_steps from "./set-math-space-steps.js";
 import content_set_math_tables_measures from "./set-math-tables-measures.js";
 
-export const MATH_SETS = [content_set_math_extra_1, content_set_math_extra_2, content_set_math_extra_3, content_set_math_extra_pack_7, content_set_math_extra_pack_8, content_set_math_patterns_number, content_set_math_space_steps, content_set_math_tables_measures].flat();
+export const MATH_SETS = [content_math_week10_TEST, content_set_math_extra_1, content_set_math_extra_2, content_set_math_extra_3, content_set_math_extra_pack_7, content_set_math_extra_pack_8, content_set_math_patterns_number, content_set_math_space_steps, content_set_math_tables_measures].flat();
