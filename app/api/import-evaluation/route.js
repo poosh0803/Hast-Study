@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { SUBJECTS } from "@/lib/content-manifest";
-import { importEvaluations, clearAllEvaluations } from "@/lib/evaluation-store";
+import { importEvaluations, clearAllEvaluations, deleteEvaluations } from "@/lib/evaluation-store";
 
 export const runtime = "nodejs";
 
@@ -28,8 +28,19 @@ export async function POST(request) {
   return NextResponse.json({ ok: true, overallSaved, questionCount });
 }
 
-// Clears every imported evaluation — all-or-nothing, see clearAllEvaluations().
-export async function DELETE() {
-  clearAllEvaluations();
+// With a body of { batchIndexes: [...], entries: [{subject,setId,questionId}, ...] }
+// deletes just those specific items. With no body (or an empty one),
+// clears every imported evaluation — the "Clear all" button's request.
+export async function DELETE(request) {
+  const body = await request.json().catch(() => null);
+  const batchIndexes = Array.isArray(body?.batchIndexes) ? body.batchIndexes : [];
+  const entries = Array.isArray(body?.entries) ? body.entries : [];
+
+  if (batchIndexes.length > 0 || entries.length > 0) {
+    deleteEvaluations({ batchIndexes, entries });
+  } else {
+    clearAllEvaluations();
+  }
+
   return NextResponse.json({ ok: true });
 }

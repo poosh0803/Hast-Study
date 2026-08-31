@@ -129,7 +129,8 @@ components/
   PromptView.js           last-resort fallback (raw field dump)
   AdminFileList.js       the checkboxes + Export/Delete selected on the Admin tab
   EvaluationImporter.js   the Import evaluation file button on the Admin tab
-  ClearEvaluationsButton.js  the Clear all evaluations button on the Evaluations tab
+  EvaluationsList.js       checkboxes + selection delete + per-row Remove on the Evaluations tab
+  ClearEvaluationsButton.js  the Clear all evaluations button (used inside EvaluationsList.js)
   CopyGuideButton.js      the Copy guide button on the Guide tab
 
 content/
@@ -344,13 +345,25 @@ subject's per-set notes grouped and linked back to the set — the one
 place to see the whole imported history, not just what's attached to the
 set you're currently looking at.
 
-**Clearing it**: the Evaluations tab has a **Clear all evaluations**
-button (only shown when there's something to clear) —
-`components/ClearEvaluationsButton.js` sends `DELETE
-/api/import-evaluation`, which calls `clearAllEvaluations()` and wipes
-`data/evaluations.json` back to empty. All-or-nothing, same granularity
-re-importing already works at — there's no per-question or per-batch
-delete yet.
+**Deleting it**: `components/EvaluationsList.js` (the client component
+`app/evaluations/page.js` renders everything through) puts a checkbox next
+to every overall note, every whole-piece note, and every per-question
+note. Checking any of them reveals a "N selected" bar with a **Delete
+selected** button — click it, confirm the popup, and just those get
+removed (each row also has its own one-click **Remove** button for a
+single item, same idea without the checkbox). Separately, **Clear all
+evaluations** at the top wipes everything in one go, still available for
+a full reset. Both send `DELETE /api/import-evaluation` —
+with a body (`{ batchIndexes, entries }`) it calls `deleteEvaluations()`
+for just those items; with no body it calls `clearAllEvaluations()`.
+`deleteEvaluations()` also removes now-empty `setId`/`subject` shells
+after a delete, so the store doesn't accumulate empty objects.
+
+Selection keys are client-side only (`batch:<index>` using the batch's
+original array position — `EvaluationsList` reverses the display order
+but keeps the real index for this reason — and
+`entry:<subject>:<setId>:<questionId>`, `_set` for a whole-piece note);
+nothing about them is persisted.
 
 ### Manual (no server needed)
 
