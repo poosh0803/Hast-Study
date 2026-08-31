@@ -19,6 +19,17 @@ function unauthorized() {
 }
 
 export function proxy(request) {
+  const { pathname } = request.nextUrl;
+
+  // The Guide page (CONTENT-GUIDE.md's schema, meant to be pasted into an
+  // AI chat) intentionally bypasses auth — it's non-sensitive reference
+  // documentation, and the whole point is being able to hand an AI the
+  // URL directly instead of copy-pasting the text first. Nothing else on
+  // the site should ever get this treatment.
+  if (pathname === "/guide" || pathname.startsWith("/guide/")) {
+    return NextResponse.next();
+  }
+
   const password = process.env.SITE_PASSWORD;
   if (!password) {
     // Fail closed, not open — better a confusing 401 locally until

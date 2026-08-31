@@ -369,6 +369,14 @@ their own. With no `matcher` exported, it runs on every request; that's
 deliberate, not an oversight — carving out exceptions risks leaving a
 route accidentally unprotected.
 
+The one deliberate exception is `/guide` (see "Adding study content" →
+Guide tab above) — it's a checked-in-code, explicit bypass right at the
+top of `proxy.js`, not a config gap. Rationale: that page is non-sensitive
+reference documentation (the content schema), and the whole point of
+having it is being able to hand an AI the URL directly rather than
+copy-pasting the text in every time. Don't add more exceptions here
+casually — this one was a deliberate call, not a precedent.
+
 The password lives in `SITE_PASSWORD`, read from `.env.local` (gitignored,
 same as everything else `.env*` — never commit it). **If `SITE_PASSWORD`
 isn't set, every request gets a 401** — proxy.js fails closed, not open,
