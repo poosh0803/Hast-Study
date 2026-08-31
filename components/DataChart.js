@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 const WIDTH = 640;
 const HEIGHT = 320;
 const PAD = { top: 16, right: 16, bottom: 36, left: 44 };
@@ -8,12 +12,29 @@ function niceMaxOf(series) {
   return Math.ceil(max / magnitude) * magnitude;
 }
 
+function Tooltip({ hovered }) {
+  if (!hovered) return null;
+  const width = Math.max(40, hovered.text.length * 6.5 + 14);
+  const height = 22;
+  const x = Math.min(Math.max(hovered.x - width / 2, 4), WIDTH - width - 4);
+  const y = Math.max(hovered.y - 14 - height, 4);
+  return (
+    <g pointerEvents="none">
+      <rect x={x} y={y} width={width} height={height} rx={5} fill="#1f2937" opacity={0.92} />
+      <text x={x + width / 2} y={y + height / 2 + 4} textAnchor="middle" fontSize="11" fill="#fff">
+        {hovered.text}
+      </text>
+    </g>
+  );
+}
+
 // A `chart` field: { type: "bar"|"line", caption?, categories: string[],
 // series: [{ name, color?, values: number[] }] } — values line up
 // index-for-index with categories. `color` is any valid CSS colour
 // (a hex code, or a keyword like "blue"/"green"/etc — SVG understands
 // those directly, no lookup table needed here unlike DataTable's classes).
 export default function DataChart({ chart }) {
+  const [hovered, setHovered] = useState(null);
   if (!chart) return null;
   const { type = "bar", caption, categories, series } = chart;
 
@@ -24,6 +45,9 @@ export default function DataChart({ chart }) {
 
   const px = (categoryIndex, offset = 0.5) => PAD.left + categoryWidth * (categoryIndex + offset);
   const py = (value) => PAD.top + innerHeight - (value / maxValue) * innerHeight;
+
+  const labelFor = (categoryIndex, s, value) =>
+    series.length > 1 ? `${categories[categoryIndex]} · ${s.name}: ${value}` : `${categories[categoryIndex]}: ${value}`;
 
   return (
     <div className="rounded-2xl border border-foreground/10 p-5">
@@ -84,6 +108,11 @@ export default function DataChart({ chart }) {
                   width={Math.max(1, barWidth - 2)}
                   height={barHeight}
                   fill={s.color || "currentColor"}
+                  className="cursor-default"
+                  onMouseEnter={() =>
+                    setHovered({ x: x + Math.max(1, barWidth - 2) / 2, y: py(v), text: labelFor(i, s, v) })
+                  }
+                  onMouseLeave={() => setHovered(null)}
                 />
               );
             });
@@ -99,10 +128,23 @@ export default function DataChart({ chart }) {
                 strokeWidth={2}
               />
               {s.values.map((v, i) => (
-                <circle key={i} cx={px(i)} cy={py(v)} r={3} fill={s.color || "currentColor"} />
+                <g key={i}>
+                  <circle
+                    cx={px(i)}
+                    cy={py(v)}
+                    r={8}
+                    fill="transparent"
+                    className="cursor-default"
+                    onMouseEnter={() => setHovered({ x: px(i), y: py(v), text: labelFor(i, s, v) })}
+                    onMouseLeave={() => setHovered(null)}
+                  />
+                  <circle cx={px(i)} cy={py(v)} r={3} fill={s.color || "currentColor"} pointerEvents="none" />
+                </g>
               ))}
             </g>
           ))}
+
+        <Tooltip hovered={hovered} />
       </svg>
 
       {series.length > 1 && (
