@@ -6,6 +6,33 @@ the folder/upload mechanics (where files live, how manifests regenerate,
 how weeks group), see the README's "Adding study content" section first;
 this file only covers the payload itself.
 
+## Output format — read this first
+
+Your job is to output **one thing**: the raw text contents of a single
+`.js` file, ready to save exactly as given and upload. Nothing else.
+
+- It must start with `export default` (an object for a single set, or an
+  array of such objects) — plain JavaScript, not JSON, not TypeScript.
+- **Not HTML.** Never write `<table>`, `<svg>`, `<div>`, or any other
+  markup tag anywhere in the output — not even for the `tables`/`charts`/
+  `diagrams` fields below. Those fields are **plain data**: JS
+  strings/numbers/arrays/objects describing a table's rows, a chart's
+  values, a diagram's tree. This app's own React components turn that
+  data into the actual visual — you never draw or mark up anything
+  yourself. If you catch yourself writing an angle-bracket tag, stop —
+  that's the wrong output.
+- Don't produce a webpage, a preview, or a rendering of the content —
+  only the data that describes it.
+- Don't produce more than one file, and don't add a README, explanation
+  file, or usage notes alongside it. If you want to explain your choices,
+  do that as a short message *outside* the file, not inside it.
+- It's fine to wrap the file in a single ```js code fence when replying
+  in chat (that's just how chat displays code) — but everything inside
+  that fence must be the literal file contents and nothing but the
+  literal file contents: no HTML, no commentary mixed in, no truncation
+  with "...". Copy-paste of that fenced block, saved as the `.js` file
+  named per the rule below, must work unmodified.
+
 Nothing here is enforced by code yet. `components/SetList.js` currently
 just lists `title` — there's no quiz-taking UI built for any subject yet.
 Treat the shapes below as the target schema so content written now and the
@@ -44,7 +71,8 @@ order tables, then charts, then diagrams. These exist because the real
 ACER HAST sample booklet uses this kind of thing constantly (flower
 availability calendars, tournament tables, energy-consumption graphs, a
 weighing-balance mobile) — **all of it is structured data, never an
-actual image file**, which is exactly what makes it something you (an AI
+actual image file, and never HTML/SVG markup either** (see "Output
+format" above) — which is exactly what makes it something you (an AI
 writing this JS file) can generate directly, the same way you'd write a
 `questions` array. Don't reference an uploaded image anywhere in this
 app — there's no image-upload mechanism, only these three.
