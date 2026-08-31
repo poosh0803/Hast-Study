@@ -79,12 +79,16 @@ is a one-line change in `ecosystem.config.js` — see the comment there.
   evaluation" below): overall notes from each import at the top, then
   per-subject, per-set specific notes with a link back to the set. Empty
   until something's actually been imported.
-- **Guide** — renders `CONTENT-GUIDE.md` (read live off disk, so this page
-  can never drift out of sync with that file) with a **Copy guide** button.
-  Meant to be pasted straight into any AI chat, alongside what
-  subject/topic you want, so it can write a ready-to-upload content file
-  without needing repo access — see "Adding study content" above for the
-  actual shape it documents.
+- **Guide** — renders two separate guides, each read live off disk (so
+  neither page can drift out of sync with its source file) with its own
+  **Copy guide** button, for two different jobs: `CONTENT-GUIDE.md` for
+  generating new content (see "Adding study content" above), and
+  `EVALUATION-GUIDE.md` for reviewing an exported set of questions/
+  answers and filling in its `evaluation` fields (see "Export &
+  evaluation" below). Copy whichever matches what you're asking an AI to
+  do, paste it in alongside the relevant context (a subject/topic, or the
+  actual exported JSON file), and it doesn't need repo access to do
+  either job correctly.
 
 Plus **Admin**, set apart on the right of the nav (not one of the study
 tabs) — lists every uploaded content file across all four subjects with a
@@ -115,7 +119,8 @@ app/
   write/[id]/page.js     one prompt's page — timer + autosaving draft
   admin/page.js         Admin tab — lists + removes uploaded content files
   evaluations/page.js    Evaluations tab — every imported note, see "Export & evaluation"
-  guide/page.js           Guide tab — renders CONTENT-GUIDE.md with a copy button
+  guide/page.js           Guide tab — renders CONTENT-GUIDE.md + EVALUATION-GUIDE.md,
+                            each with its own copy button
 
 components/
   NavBar.js            top nav, highlights the active tab
@@ -272,6 +277,10 @@ person working through a quiz or a draft, not written to support
 simultaneous writers.
 
 ### Export & evaluation
+
+For the actual instructions meant to be pasted into an AI chat alongside
+the exported file, see `EVALUATION-GUIDE.md` (also on the Guide tab) —
+what follows here is the mechanics.
 
 **Export** is selection-driven, not all-or-nothing: check some files in
 Admin's list and an **Export selected** button appears next to **Delete
