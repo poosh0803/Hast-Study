@@ -3,17 +3,25 @@ import EmptyState from "@/components/EmptyState";
 import { groupByWeek } from "@/lib/group-by-week";
 
 function progressLabel(item, progress) {
-  const total = item.questions?.length ?? 0;
-  if (total === 0) return null;
-
   const itemProgress = progress?.[item.id];
-  const answers = itemProgress?.answers || {};
-  const answered = Object.keys(answers).length;
-  const correct = Object.values(answers).filter((a) => a.correct).length;
 
-  if (answered === 0) return "Not started";
-  if (answered < total) return `${correct} / ${answered} correct · in progress`;
-  return `${correct} / ${total} correct`;
+  const total = item.questions?.length ?? 0;
+  if (total > 0) {
+    const answers = itemProgress?.answers || {};
+    const answered = Object.keys(answers).length;
+    const correct = Object.values(answers).filter((a) => a.correct).length;
+
+    if (answered === 0) return "Not started";
+    if (answered < total) return `${correct} / ${answered} correct · in progress`;
+    return `${correct} / ${total} correct`;
+  }
+
+  if (itemProgress?.draft?.text) {
+    const words = itemProgress.draft.wordCount;
+    return `Draft saved · ${words} word${words === 1 ? "" : "s"}`;
+  }
+
+  return null;
 }
 
 export default function SetList({ subject, basePath, items, progress }) {

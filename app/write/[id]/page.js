@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import QuizSet from "@/components/QuizSet";
+import WritePrompt from "@/components/WritePrompt";
 import PromptView from "@/components/PromptView";
 import { WRITE_PROMPTS } from "@/content/write/manifest";
 import { getSetProgress } from "@/lib/progress-store";
+import { getSetEvaluations } from "@/lib/evaluation-store";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -17,6 +18,7 @@ export default async function WritePromptPage({ params }) {
   if (!prompt) notFound();
 
   const progress = getSetProgress("write", id);
+  const evaluations = getSetEvaluations("write", id);
 
   return (
     <section className="mx-auto max-w-4xl px-6 py-10">
@@ -24,8 +26,13 @@ export default async function WritePromptPage({ params }) {
         ← Back to Write
       </Link>
       <div className="mt-4">
-        {prompt.questions ? (
-          <QuizSet set={prompt} subject="write" initialAnswers={progress?.answers} />
+        {prompt.stimulus || prompt.kind ? (
+          <WritePrompt
+            prompt={prompt}
+            subject="write"
+            initialDraft={progress?.draft}
+            evaluation={evaluations._set?.evaluation}
+          />
         ) : (
           <PromptView item={prompt} />
         )}

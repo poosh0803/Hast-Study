@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function QuizSet({ set, subject, initialAnswers }) {
+export default function QuizSet({ set, subject, initialAnswers, evaluations }) {
   const [answers, setAnswers] = useState(() => {
     const initial = {};
     for (const [questionId, record] of Object.entries(initialAnswers || {})) {
@@ -150,6 +150,12 @@ export default function QuizSet({ set, subject, initialAnswers }) {
               </div>
               {answered && q.explanation && (
                 <p className="mt-3 text-sm text-foreground/60">{q.explanation}</p>
+              )}
+              {answered && evaluations?.[q.id]?.evaluation && (
+                <div className="mt-3 rounded-lg bg-foreground/5 p-3 text-sm text-foreground/80">
+                  <span className="font-medium text-foreground">Evaluation: </span>
+                  {evaluations[q.id].evaluation}
+                </div>
               )}
             </li>
           );

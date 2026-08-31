@@ -1,4 +1,5 @@
 import AdminFileList from "@/components/AdminFileList";
+import EvaluationImporter from "@/components/EvaluationImporter";
 import { listContentFiles } from "@/lib/content-manifest";
 
 export const metadata = { title: "Admin — Hast Study" };
@@ -12,16 +13,12 @@ export default function AdminPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Admin</h1>
           <p className="mt-2 text-foreground/60">
-            Remove uploaded content files. Removing a file also drops it from that subject&apos;s
-            manifest.
+            Remove uploaded content files, or select some and export just those — the file
+            comes with a blank evaluation field per question for an AI or human to fill in
+            and hand back through Import.
           </p>
         </div>
-        <a
-          href="/api/export"
-          className="rounded-full border border-foreground/25 px-4 py-1.5 text-sm font-medium transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
-        >
-          Export questions &amp; answers
-        </a>
+        <EvaluationImporter />
       </div>
 
       <div className="mt-8">

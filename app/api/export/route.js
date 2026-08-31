@@ -1,59 +1,84 @@
 import { NextResponse } from "next/server";
-import { ABSTRACT_SETS } from "@/content/abstract/manifest";
-import { MATH_SETS } from "@/content/math/manifest";
-import { READ_SETS } from "@/content/read/manifest";
-import { WRITE_PROMPTS } from "@/content/write/manifest";
+import { SUBJECTS, loadFileDefaultExport } from "@/lib/content-manifest";
 import { getSubjectProgress } from "@/lib/progress-store";
 
 export const runtime = "nodejs";
 
-const SUBJECT_SETS = {
-  abstract: ABSTRACT_SETS,
-  math: MATH_SETS,
-  read: READ_SETS,
-  write: WRITE_PROMPTS,
-};
+// Merges one set with its saved answers (or, for a Write prompt with no
+// `questions`, its saved draft) and adds a blank `evaluation` slot — the
+// file is meant to be handed to an AI or a human, who fills those in and
+// hands the modified file back through Admin's Import evaluation file
+// button. A quiz set gets `evaluation` per question; a Write prompt gets
+// one `evaluation` for the whole piece, next to its `draft`.
+function mergeSetWithProgress(item, progress) {
+  const itemProgress = progress[item.id];
 
-// Merges each set's questions with Tristan's saved answer for that
-// question (if any), so the export is self-contained: an AI reading it
-// sees the question, the correct answer, and what was actually picked —
-// no need to cross-reference content files against data/progress.json.
-function buildSubjectExport(subject, sets) {
-  const progress = getSubjectProgress(subject);
-
-  return sets.map((item) => {
-    const savedAnswers = progress[item.id]?.answers || {};
-    if (!Array.isArray(item.questions)) return item;
-
+  if (!Array.isArray(item.questions)) {
     return {
       ...item,
-      questions: item.questions.map((q) => {
-        const saved = savedAnswers[q.id];
-        return {
-          ...q,
-          yourAnswer: saved
-            ? {
-                chosenIndex: saved.chosen,
-                chosenText: q.choices?.[saved.chosen] ?? null,
-                correct: saved.correct,
-                answeredAt: saved.answeredAt,
-              }
-            : null,
-        };
-      }),
+      draft: itemProgress?.draft || null,
+      evaluation: "",
     };
-  });
-}
-
-export async function GET() {
-  const exportedAt = new Date().toISOString();
-
-  const subjects = {};
-  for (const [subject, sets] of Object.entries(SUBJECT_SETS)) {
-    subjects[subject] = buildSubjectExport(subject, sets);
   }
 
-  const payload = { exportedAt, subjects };
+  const savedAnswers = itemProgress?.answers || {};
+  return {
+    ...item,
+    questions: item.questions.map((q) => {
+      const saved = savedAnswers[q.id];
+      return {
+        ...q,
+        yourAnswer: saved
+          ? {
+              chosenIndex: saved.chosen,
+              chosenText: q.choices?.[saved.chosen] ?? null,
+              correct: saved.correct,
+              answeredAt: saved.answeredAt,
+            }
+          : null,
+        evaluation: "",
+      };
+    }),
+  };
+}
+
+// Body: { items: [{ subject, filename }, ...] } — the same selection
+// shape as app/api/delete-content/route.js, so Admin's checkboxes drive
+// both. Only the selected files are exported, not every set in a subject.
+export async function POST(request) {
+  const body = await request.json().catch(() => null);
+  const items = Array.isArray(body?.items) ? body.items : [];
+
+  if (items.length === 0) {
+    return NextResponse.json({ error: "No files selected." }, { status: 400 });
+  }
+
+  const subjects = {};
+  const progressCache = {};
+
+  for (const item of items) {
+    const subject = item?.subject;
+    const filename = item?.filename;
+    if (typeof subject !== "string" || !SUBJECTS[subject]) continue;
+    if (typeof filename !== "string") continue;
+
+    let sets;
+    try {
+      sets = loadFileDefaultExport(subject, filename);
+    } catch {
+      continue; // skip an unreadable file rather than fail the whole export
+    }
+
+    if (!progressCache[subject]) progressCache[subject] = getSubjectProgress(subject);
+    if (!subjects[subject]) subjects[subject] = [];
+
+    for (const set of sets) {
+      subjects[subject].push(mergeSetWithProgress(set, progressCache[subject]));
+    }
+  }
+
+  const exportedAt = new Date().toISOString();
+  const payload = { exportedAt, evaluation: "", subjects };
   const filename = `hast-study-export-${exportedAt.slice(0, 10)}.json`;
 
   return new NextResponse(JSON.stringify(payload, null, 2), {

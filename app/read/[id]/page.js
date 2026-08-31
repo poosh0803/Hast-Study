@@ -4,6 +4,7 @@ import QuizSet from "@/components/QuizSet";
 import PromptView from "@/components/PromptView";
 import { READ_SETS } from "@/content/read/manifest";
 import { getSetProgress } from "@/lib/progress-store";
+import { getSetEvaluations } from "@/lib/evaluation-store";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -17,6 +18,7 @@ export default async function ReadSetPage({ params }) {
   if (!set) notFound();
 
   const progress = getSetProgress("read", id);
+  const evaluations = getSetEvaluations("read", id);
 
   return (
     <section className="mx-auto max-w-4xl px-6 py-10">
@@ -25,7 +27,12 @@ export default async function ReadSetPage({ params }) {
       </Link>
       <div className="mt-4">
         {set.questions ? (
-          <QuizSet set={set} subject="read" initialAnswers={progress?.answers} />
+          <QuizSet
+            set={set}
+            subject="read"
+            initialAnswers={progress?.answers}
+            evaluations={evaluations}
+          />
         ) : (
           <PromptView item={set} />
         )}
