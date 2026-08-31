@@ -117,7 +117,8 @@ app/
   read/[id]/page.js      one set's detail/quiz page
   write/page.js        Write tab
   write/[id]/page.js     one prompt's page — timer + autosaving draft
-  admin/page.js         Admin tab — lists + removes uploaded content files
+  admin/page.js         Admin tab — lists + removes uploaded content files,
+                            and uploaded images (see "Images" below)
   evaluations/page.js    Evaluations tab — every imported note, see "Export & evaluation"
   guide/page.js           Guide tab — renders CONTENT-GUIDE.md + EVALUATION-GUIDE.md,
                             each with its own copy button
@@ -131,12 +132,19 @@ components/
                             shows an imported per-question evaluation note if there is one,
                             renders `tables`/`charts`/`diagrams` above the questions if present
   DataTable.js             renders a `tables` entry — plain or colour-highlighted-cell table
-  DataChart.js             renders a `charts` entry — inline SVG bar/line chart, no library
+  DataChart.js             renders a `charts` entry — inline SVG bar/line/scatter chart,
+                            no library, hover shows the exact value at a point
   MobileDiagram.js         renders a `diagrams` entry — a weighing-balance/mobile tree diagram
+  FigureSvg.js             renders a `figures` entry — hand-authored inline SVG, sanitized
+                            before render (see CONTENT-GUIDE.md "figures")
+  FigureImage.js           renders an `images` entry — a real uploaded picture, from
+                            /content-images/<subject>/<src> (see CONTENT-GUIDE.md "images")
   WritePrompt.js          timer + plan/shape + autosaving textarea for a Write prompt,
                             shows an imported whole-piece evaluation note if there is one
   PromptView.js           last-resort fallback (raw field dump)
   AdminFileList.js       the checkboxes + Export/Delete selected on the Admin tab
+  ImageUploader.js        the subject-select + Upload images button on the Admin tab
+  AdminImageList.js       thumbnail grid + checkboxes + Delete selected for uploaded images
   EvaluationImporter.js   the Import evaluation file button on the Admin tab
   EvaluationsList.js       checkboxes + selection delete + per-row Remove on the Evaluations tab
   ClearEvaluationsButton.js  the Clear all evaluations button (used inside EvaluationsList.js)
@@ -148,8 +156,13 @@ content/
   read/manifest.js       auto-generated, exports READ_SETS
   write/manifest.js       auto-generated, exports WRITE_PROMPTS
 
+public/
+  content-images/<subject>/<filename>  uploaded images, served statically at
+                                         /content-images/<subject>/<filename> — see "Images" below
+
 lib/
   content-manifest.js   regenerateManifest() + listContentFiles() + loadFileDefaultExport()
+  content-images.js      listContentImages() + ensureSubjectImageDir() + filename validation
   group-by-week.js       groupByWeek() — used by components/SetList.js
   progress-store.js      reads/writes data/progress.json
   evaluation-store.js     reads/writes data/evaluations.json
@@ -162,6 +175,9 @@ app/api/upload-content/route.js     receives an upload, saves the file,
                                       calls regenerateManifest()
 app/api/delete-content/route.js     removes one or more files ({ items: [...] }),
                                       calls regenerateManifest() once per affected subject
+app/api/upload-image/route.js       receives one or more image files, saves them under
+                                      public/content-images/<subject>/
+app/api/delete-image/route.js       removes one or more uploaded images ({ items: [...] })
 app/api/progress/route.js           POST records an answer, DELETE resets/clears a set
 app/api/draft/route.js              POST saves the current draft text for a Write prompt
 app/api/export/route.js             POST { items: [...] } downloads a JSON file of just
@@ -229,6 +245,31 @@ refreshes the page). Under a production build (`next build && next start`)
 new content is baked into the build, so an upload won't show up until the
 app is rebuilt and restarted.
 
+### Images
+
+A content file can reference a real picture via `images: [{ src, caption?,
+alt? }]` (see `CONTENT-GUIDE.md` "images") — but an AI writing that file
+can only supply the reference, never the picture itself. Uploading the
+actual file is a separate, human step on the **Admin** tab, below the
+content file list:
+
+1. Pick a subject from the dropdown, then **Upload images** — one or more
+   image files at once, same batch-tolerant per-file success/failure
+   reporting as content uploads. `app/api/upload-image/route.js` saves
+   each into `public/content-images/<subject>/`, validating the filename
+   (letters/numbers/`-`/`_`, ending in `.png`/`.jpg`/`.jpeg`/`.webp`/
+   `.gif`/`.svg`) and a 8MB size cap.
+2. The filename you upload it as is exactly what a content file's
+   `images[].src` should reference — no path, just the filename. The
+   Admin tab's Images section (`components/AdminImageList.js`) lists every
+   uploaded image as a thumbnail grid, grouped by subject, so you can
+   confirm the exact filename or delete one (same checkbox +
+   Delete-selected pattern as the content file list above).
+
+Unlike content `.js` files, uploaded images are static assets under
+`public/` — Next serves them directly, no manifest/recompile step, so
+they show up immediately under both `npm run dev` and a production build.
+
 ### Weeks
 
 `week` (a number) and `weekTitle` (a string) are optional per item.
@@ -246,16 +287,19 @@ Each card on a subject tab links to `<basePath>/<id>` (e.g. `/math/M1`).
 An item with a `questions` array renders `components/QuizSet.js` —
 multiple choice, click an option, it locks in and shows correct/incorrect
 plus the `explanation`, with a running score at the top. Above the
-questions, it also renders any `tables`/`charts`/`diagrams` the set
-carries (see `CONTENT-GUIDE.md` "Visual data") via
-`components/DataTable.js`, `DataChart.js`, and `MobileDiagram.js` — all
-three take structured data only, nothing image-based, so an AI writing
-the content file can generate them the same way it writes `questions`.
-Designed directly off the real ACER HAST sample booklet's own visual
-content (flower-availability calendars, tournament tables, an
-energy-consumption graph, a weighing-balance mobile) — none of that is an
+questions, it also renders any `tables`/`charts`/`diagrams`/`figures`/
+`images` the set carries (see `CONTENT-GUIDE.md` "Visual data") via
+`components/DataTable.js`, `DataChart.js`, `MobileDiagram.js`,
+`FigureSvg.js`, and `FigureImage.js` — the first three take structured
+data only, nothing image-based, so an AI writing the content file can
+generate them the same way it writes `questions`. Designed directly off
+the real ACER HAST sample booklet's own visual content
+(flower-availability calendars, tournament tables, an energy-consumption
+graph, a weighing-balance mobile, a scatter plot) — none of that is an
 image in the real test either, once you look at it as data instead of a
-picture. An item with no `questions` but a `stimulus` or `kind` (Write
+picture. `figures`/`images` cover what those three can't — see "Images"
+below and `CONTENT-GUIDE.md`'s "figures"/"images" for the split between
+them. An item with no `questions` but a `stimulus` or `kind` (Write
 prompts — see `CONTENT-GUIDE.md`) renders `components/WritePrompt.js`
 instead: the prompt, its `plan` steps and `shape` guidance, a
 `minutes`-based countdown timer (Start/Pause/Reset, purely client-side,

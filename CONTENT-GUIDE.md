@@ -13,14 +13,17 @@ Your job is to output **one thing**: the raw text contents of a single
 
 - It must start with `export default` (an object for a single set, or an
   array of such objects) — plain JavaScript, not JSON, not TypeScript.
-- **Not HTML.** Never write `<table>`, `<svg>`, `<div>`, or any other
-  markup tag anywhere in the output — not even for the `tables`/`charts`/
-  `diagrams` fields below. Those fields are **plain data**: JS
+- **Not HTML.** Never write `<table>`, `<div>`, or any other markup tag
+  anywhere in the output — not even for the `tables`/`charts`/`diagrams`
+  fields below. Those fields are **plain data**: JS
   strings/numbers/arrays/objects describing a table's rows, a chart's
   values, a diagram's tree. This app's own React components turn that
   data into the actual visual — you never draw or mark up anything
   yourself. If you catch yourself writing an angle-bracket tag, stop —
-  that's the wrong output.
+  that's the wrong output. The **one exception** is the `svg` string
+  inside a `figures` entry (see "Visual data" below) — that field, and
+  only that field, is allowed to contain literal `<svg>...</svg>` markup.
+  Nowhere else, ever.
 - Don't produce a webpage, a preview, or a rendering of the content —
   only the data that describes it.
 - Don't produce more than one file, and don't add a README, explanation
@@ -63,19 +66,20 @@ default-exported array — carries:
 
 Everything else is subject-specific, described below.
 
-## Visual data: tables, charts, diagrams
+## Visual data: tables, charts, diagrams, figures, images
 
 Available on any subject with `questions` (Math/Read/Abstract) — optional
 arrays sitting alongside `passages`, rendered above the questions in the
-order tables, then charts, then diagrams. These exist because the real
-ACER HAST sample booklet uses this kind of thing constantly (flower
-availability calendars, tournament tables, energy-consumption graphs, a
+order tables, then charts, then diagrams, then figures, then images.
+`tables`/`charts`/`diagrams` exist because the real ACER HAST sample
+booklet uses this kind of thing constantly (flower availability
+calendars, tournament tables, energy-consumption graphs, a
 weighing-balance mobile) — **all of it is structured data, never an
 actual image file, and never HTML/SVG markup either** (see "Output
 format" above) — which is exactly what makes it something you (an AI
 writing this JS file) can generate directly, the same way you'd write a
-`questions` array. Don't reference an uploaded image anywhere in this
-app — there's no image-upload mechanism, only these three.
+`questions` array. Reach for one of those three first; `figures` and
+`images` below are for the cases that genuinely don't fit.
 
 ### `tables`
 
@@ -197,6 +201,56 @@ drawn under a shape (e.g. `"3 kg"`) once you know/want to reveal a mass.
 **You only ever describe the tree** — spacing, rod lengths, and the
 actual drawing are computed by the app; don't try to specify coordinates.
 
+### `figures`
+
+The **one exception** to "no markup" (see "Output format" above) — for a
+figure that genuinely doesn't fit `tables`/`charts`/`diagrams`, most often
+a classic Abstract-reasoning "next in sequence" item (a shape rotating
+45° each frame, a dot moving around a pentagon's vertices). Write it as
+hand-authored SVG yourself:
+
+```js
+figures: [
+  {
+    caption: "Shape sequence", // optional
+    svg: '<svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="20" width="40" height="40" fill="#3b82f6"/><rect x="90" y="20" width="40" height="40" fill="#3b82f6" transform="rotate(45 110 40)"/><rect x="170" y="20" width="40" height="40" fill="#3b82f6" transform="rotate(90 190 40)"/></svg>',
+  },
+],
+```
+
+`svg` is a single string: the complete `<svg>...</svg>` markup, starting
+with a `viewBox` (not fixed pixel width/height — the app scales it to
+fit). Keep it to simple shapes (`<rect>`/`<circle>`/`<polygon>`/`<line>`/
+`<path>` with `fill`/`stroke`/`transform`) — no `<script>`, no external
+references (`<image href="...">`, `url(...)`, web fonts), nothing that
+depends on anything outside the string itself. Before reaching for this,
+check again whether `tables`/`charts`/`diagrams` actually covers it —
+`figures` is the fallback for when they don't, not a shortcut around
+learning their shapes.
+
+### `images`
+
+For a real picture — an actual photo, or a diagram reproduced faithfully
+from a real source (e.g. a scan/crop from a prep book) — that can't be
+recreated as data or simple SVG at all:
+
+```js
+images: [
+  { caption: "Bark sample", src: "bark-sample-1.jpg", alt: "Close-up photo of smooth grey eucalypt bark" }, // optional caption/alt
+],
+```
+
+**You (the AI) cannot fulfill this field on your own.** You can only
+write the reference — `src` is a bare filename, no path — to a picture
+that a human uploads *separately* through this app's Admin tab → Images,
+using that exact filename. Text generation can't produce a real image
+file; don't try, don't describe one in prose as if it were the image, and
+don't invent a plausible-looking filename hoping it exists — pick a
+clear, descriptive filename and tell whoever is running you what to
+upload and call it. If a whole question depends on picture detail you
+can't respond to until it's uploaded, say so plainly in your reply
+outside the file, rather than guessing at content you can't see.
+
 ## Math
 
 - `topic` (string, optional) — short tag, e.g. `"Number & Pattern"`,
@@ -253,16 +307,17 @@ Same shape as Math (`questions` with `id`/`prompt`/`choices`/`answer`/
   `"a-next"`, `"a-mid"`, `"a-grid"` for Abstract), for future filtering by
   skill rather than by topic.
 
-Abstract reasoning here is mostly still **text-described**, not
-image-based — e.g. "A counter shows 3, then 5, then 7. Next is" with text
-choices like `"9"`. The `tables`/`charts`/`diagrams` fields above cover
-some real Abstract-style visual content (e.g. a family-tree or
-weighing-style logic puzzle, which is just a `diagrams` mobile without
-the mass numbers), but **not** classic rotating/shifting-shape "next in
-sequence" items (a shape spinning 45° each frame, a dot moving around a
-pentagon) — there's no renderer for that yet. If a question depends on
-one of those, keep it text-described instead; don't invent a figure this
-app can't draw.
+Abstract reasoning here can be **text-described** — e.g. "A counter shows
+3, then 5, then 7. Next is" with text choices like `"9"` — or visual. The
+`tables`/`charts`/`diagrams` fields above cover some real Abstract-style
+visual content (e.g. a family-tree or weighing-style logic puzzle, which
+is just a `diagrams` mobile without the mass numbers). For classic
+rotating/shifting-shape "next in sequence" items (a shape spinning 45°
+each frame, a dot moving around a pentagon), use `figures` (hand-authored
+SVG, see "Visual data" above) if the shapes are simple enough to draw
+that way, or fall back to text-described choices if not — don't reach
+for `images` here, since an AI can't generate a real picture for a
+made-up sequence anyway (see `images`' own note on that).
 
 ## Write
 

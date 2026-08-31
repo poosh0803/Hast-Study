@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import DataTable from "@/components/DataTable";
 import DataChart from "@/components/DataChart";
 import MobileDiagram from "@/components/MobileDiagram";
+import FigureSvg from "@/components/FigureSvg";
+import FigureImage from "@/components/FigureImage";
 
 export default function QuizSet({ set, subject, initialAnswers, evaluations }) {
   const [answers, setAnswers] = useState(() => {
@@ -136,6 +138,22 @@ export default function QuizSet({ set, subject, initialAnswers, evaluations }) {
         <div className="mt-6 space-y-4">
           {set.diagrams.map((diagram, di) => (
             <MobileDiagram key={diagram.caption ?? di} diagram={diagram} />
+          ))}
+        </div>
+      )}
+
+      {Array.isArray(set.figures) && set.figures.length > 0 && (
+        <div className="mt-6 space-y-4">
+          {set.figures.map((figure, fi) => (
+            <FigureSvg key={figure.caption ?? fi} figure={figure} />
+          ))}
+        </div>
+      )}
+
+      {Array.isArray(set.images) && set.images.length > 0 && (
+        <div className="mt-6 space-y-4">
+          {set.images.map((image, ii) => (
+            <FigureImage key={image.src ?? ii} image={image} subject={subject} />
           ))}
         </div>
       )}
