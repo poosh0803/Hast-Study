@@ -1,0 +1,51 @@
+export default {
+  id: "M8",
+  week: 2,
+  weekTitle: "Algebra & Equations",
+  title: "Inequalities",
+  topic: "Algebra & Equations",
+  questions: [
+    {
+      id: "M8-Q1",
+      prompt: "Solve: x + 3 > 8",
+      choices: ["x > 5", "x > 11", "x < 5", "x > 3"],
+      answer: 0,
+      explanation: "Subtract 3 from both sides: x > 5.",
+    },
+    {
+      id: "M8-Q2",
+      prompt: "Solve: 2x ≤ 10",
+      choices: ["x ≤ 5", "x ≤ 8", "x ≤ 20", "x ≤ 2"],
+      answer: 0,
+      explanation: "Divide both sides by 2: x ≤ 5.",
+    },
+    {
+      id: "M8-Q3",
+      prompt: "Which of these values of x makes x − 4 < 2 true?",
+      choices: ["5", "6", "7", "8"],
+      answer: 0,
+      explanation: "5 − 4 = 1, which is less than 2. The others give 2 or more, which does not satisfy < 2.",
+    },
+    {
+      id: "M8-Q4",
+      prompt: "Solve: −3x < 9",
+      choices: ["x > −3", "x < −3", "x > 3", "x < 3"],
+      answer: 0,
+      explanation: "Divide both sides by −3, remembering to flip the inequality: x > −3.",
+    },
+    {
+      id: "M8-Q5",
+      prompt: "If x > 4, which of the following could NOT be a value of x?",
+      choices: ["4", "5", "6", "10"],
+      answer: 0,
+      explanation: "The inequality is strict (>), so x cannot equal 4 itself.",
+    },
+    {
+      id: "M8-Q6",
+      prompt: "Solve: 5x + 2 ≥ 17",
+      choices: ["x ≥ 2", "x ≥ 3", "x ≥ 4", "x ≥ 15"],
+      answer: 1,
+      explanation: "Subtract 2: 5x ≥ 15. Divide by 5: x ≥ 3.",
+    },
+  ],
+};

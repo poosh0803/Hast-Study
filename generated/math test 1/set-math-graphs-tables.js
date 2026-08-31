@@ -1,0 +1,51 @@
+export default {
+  id: "M15",
+  week: 4,
+  weekTitle: "Statistics & Problem Solving",
+  title: "Reading Graphs & Tables",
+  topic: "Statistics & Problem Solving",
+  questions: [
+    {
+      id: "M15-Q1",
+      prompt: "A survey of favourite fruit gave these results: Apple 12, Banana 8, Orange 5, Grape 3. How many students were surveyed in total?",
+      choices: ["25", "26", "28", "30"],
+      answer: 2,
+      explanation: "12 + 8 + 5 + 3 = 28.",
+    },
+    {
+      id: "M15-Q2",
+      prompt: "Using the same fruit survey (Apple 12, Banana 8, Orange 5, Grape 3), which fruit was least popular?",
+      choices: ["Apple", "Banana", "Orange", "Grape"],
+      answer: 3,
+      explanation: "Grape has the smallest count, 3.",
+    },
+    {
+      id: "M15-Q3",
+      prompt: "Using the same fruit survey, what fraction of students chose Apple?",
+      choices: ["1/2", "3/7", "3/8", "2/5"],
+      answer: 1,
+      explanation: "12 out of 28 students chose Apple: 12/28 simplifies to 3/7.",
+    },
+    {
+      id: "M15-Q4",
+      prompt: "A bar graph shows weekly rainfall in mm: Mon 5, Tue 10, Wed 0, Thu 15, Fri 5. What was the total rainfall for the week?",
+      choices: ["30mm", "35mm", "40mm", "45mm"],
+      answer: 1,
+      explanation: "5 + 10 + 0 + 15 + 5 = 35mm.",
+    },
+    {
+      id: "M15-Q5",
+      prompt: "Using the same rainfall data, on which day was rainfall highest?",
+      choices: ["Mon", "Tue", "Thu", "Fri"],
+      answer: 2,
+      explanation: "Thursday had 15mm, more than any other day.",
+    },
+    {
+      id: "M15-Q6",
+      prompt: "A line graph shows a plant's height: Week 1 = 2cm, Week 2 = 5cm, Week 3 = 9cm, Week 4 = 14cm. By how much did the height increase from Week 2 to Week 4?",
+      choices: ["5cm", "7cm", "9cm", "12cm"],
+      answer: 2,
+      explanation: "14cm − 5cm = 9cm.",
+    },
+  ],
+};

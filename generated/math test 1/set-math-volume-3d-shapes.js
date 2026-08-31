@@ -1,0 +1,51 @@
+export default {
+  id: "M12",
+  week: 3,
+  weekTitle: "Measurement & Geometry",
+  title: "Volume & 3D Shapes",
+  topic: "Measurement & Geometry",
+  questions: [
+    {
+      id: "M12-Q1",
+      prompt: "Find the volume of a rectangular prism with length 4cm, width 3cm, and height 5cm.",
+      choices: ["12cm³", "35cm³", "60cm³", "75cm³"],
+      answer: 2,
+      explanation: "Volume = length × width × height = 4 × 3 × 5 = 60cm³.",
+    },
+    {
+      id: "M12-Q2",
+      prompt: "Find the volume of a cube with side length 6cm.",
+      choices: ["36cm³", "108cm³", "180cm³", "216cm³"],
+      answer: 3,
+      explanation: "Volume = side³ = 6 × 6 × 6 = 216cm³.",
+    },
+    {
+      id: "M12-Q3",
+      prompt: "How many faces does a rectangular prism have?",
+      choices: ["4", "6", "8", "12"],
+      answer: 1,
+      explanation: "A rectangular prism has 6 rectangular faces.",
+    },
+    {
+      id: "M12-Q4",
+      prompt: "How many edges does a cube have?",
+      choices: ["6", "8", "10", "12"],
+      answer: 3,
+      explanation: "A cube has 12 edges: 4 on the top face, 4 on the bottom face, and 4 connecting them.",
+    },
+    {
+      id: "M12-Q5",
+      prompt: "Find the volume of a cylinder with radius 3cm and height 10cm (use π ≈ 3.14, round to the nearest whole number).",
+      choices: ["94cm³", "188cm³", "283cm³", "942cm³"],
+      answer: 2,
+      explanation: "Volume = πr²h = 3.14 × 3² × 10 = 3.14 × 9 × 10 = 282.6, which rounds to 283cm³.",
+    },
+    {
+      id: "M12-Q6",
+      prompt: "A box has a volume of 120cm³. If its base area is 20cm², what is its height?",
+      choices: ["4cm", "5cm", "6cm", "8cm"],
+      answer: 2,
+      explanation: "Height = volume ÷ base area = 120 ÷ 20 = 6cm.",
+    },
+  ],
+};

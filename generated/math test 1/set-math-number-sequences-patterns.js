@@ -1,0 +1,51 @@
+export default {
+  id: "M4",
+  week: 1,
+  weekTitle: "Number & Pattern",
+  title: "Number Sequences & Patterns",
+  topic: "Number & Pattern",
+  questions: [
+    {
+      id: "M4-Q1",
+      prompt: "Find the next term: 3, 7, 11, 15, ?",
+      choices: ["17", "18", "19", "21"],
+      answer: 2,
+      explanation: "Each term increases by 4, so the next term is 15 + 4 = 19.",
+    },
+    {
+      id: "M4-Q2",
+      prompt: "Find the missing number: 1, 4, 9, 16, ?, 36",
+      choices: ["20", "24", "25", "30"],
+      answer: 2,
+      explanation: "These are square numbers (1², 2², 3², 4², 5², 6²), so the missing term is 5² = 25.",
+    },
+    {
+      id: "M4-Q3",
+      prompt: "What is the next term in 2, 4, 8, 16, ?",
+      choices: ["24", "28", "30", "32"],
+      answer: 3,
+      explanation: "Each term doubles the one before it, so the next term is 16 × 2 = 32.",
+    },
+    {
+      id: "M4-Q4",
+      prompt: "Find the next term: 100, 90, 81, 73, ?",
+      choices: ["64", "65", "66", "70"],
+      answer: 2,
+      explanation: "The gaps between terms are −10, −9, −8, so the next gap is −7, giving 73 − 7 = 66.",
+    },
+    {
+      id: "M4-Q5",
+      prompt: "The nth term rule of a sequence is 3n + 2. What is the 5th term?",
+      choices: ["15", "17", "19", "21"],
+      answer: 1,
+      explanation: "Substitute n = 5: 3 × 5 + 2 = 17.",
+    },
+    {
+      id: "M4-Q6",
+      prompt: "Which number continues the pattern: 5, 10, 20, 40, ?",
+      choices: ["45", "60", "80", "160"],
+      answer: 2,
+      explanation: "Each term doubles the one before it, so the next term is 40 × 2 = 80.",
+    },
+  ],
+};

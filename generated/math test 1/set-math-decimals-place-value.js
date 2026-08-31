@@ -1,0 +1,51 @@
+export default {
+  id: "M3",
+  week: 1,
+  weekTitle: "Number & Pattern",
+  title: "Decimals & Place Value",
+  topic: "Number & Pattern",
+  questions: [
+    {
+      id: "M3-Q1",
+      prompt: "What is 3.45 + 2.6?",
+      choices: ["6.05", "5.05", "6.5", "5.71"],
+      answer: 0,
+      explanation: "Line up the decimal points: 3.45 + 2.60 = 6.05.",
+    },
+    {
+      id: "M3-Q2",
+      prompt: "Round 7.368 to two decimal places.",
+      choices: ["7.36", "7.37", "7.4", "7.30"],
+      answer: 1,
+      explanation: "The third decimal digit is 8, which rounds the second digit up from 6 to 7, giving 7.37.",
+    },
+    {
+      id: "M3-Q3",
+      prompt: "What is 0.6 × 0.5?",
+      choices: ["0.3", "0.11", "3.0", "0.03"],
+      answer: 0,
+      explanation: "6 × 5 = 30, and there are two decimal places total, so 0.6 × 0.5 = 0.30 = 0.3.",
+    },
+    {
+      id: "M3-Q4",
+      prompt: "Which of these numbers is the largest?",
+      choices: ["0.45", "0.5", "0.045", "0.405"],
+      answer: 1,
+      explanation: "Comparing tenths: 0.5 has 5 tenths, more than 0.45 (4 tenths) or 0.405 and 0.045.",
+    },
+    {
+      id: "M3-Q5",
+      prompt: "What is 9.6 ÷ 0.4?",
+      choices: ["2.4", "24", "0.24", "240"],
+      answer: 1,
+      explanation: "Multiply both numbers by 10 to clear the decimal: 96 ÷ 4 = 24.",
+    },
+    {
+      id: "M3-Q6",
+      prompt: "Write ⅜ as a decimal.",
+      choices: ["0.375", "0.38", "0.3", "0.83"],
+      answer: 0,
+      explanation: "3 ÷ 8 = 0.375.",
+    },
+  ],
+};

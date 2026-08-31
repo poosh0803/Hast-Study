@@ -1,0 +1,51 @@
+export default {
+  id: "M5",
+  week: 2,
+  weekTitle: "Algebra & Equations",
+  title: "Algebraic Expressions",
+  topic: "Algebra & Equations",
+  questions: [
+    {
+      id: "M5-Q1",
+      prompt: "Simplify: 3x + 5x − 2x",
+      choices: ["6x", "10x", "4x", "8x"],
+      answer: 0,
+      explanation: "3x + 5x − 2x = 6x.",
+    },
+    {
+      id: "M5-Q2",
+      prompt: "Expand: 4(x + 3)",
+      choices: ["4x + 3", "4x + 7", "4x + 12", "x + 12"],
+      answer: 2,
+      explanation: "Multiply both terms inside the brackets by 4: 4 × x + 4 × 3 = 4x + 12.",
+    },
+    {
+      id: "M5-Q3",
+      prompt: "Simplify: 2(a + 3b) − a",
+      choices: ["a + 6b", "3a + 6b", "a + 3b", "2a + 5b"],
+      answer: 0,
+      explanation: "2(a + 3b) = 2a + 6b, and 2a + 6b − a = a + 6b.",
+    },
+    {
+      id: "M5-Q4",
+      prompt: "If y = 2x + 1, what is y when x = 4?",
+      choices: ["7", "8", "9", "10"],
+      answer: 2,
+      explanation: "Substitute x = 4: y = 2 × 4 + 1 = 9.",
+    },
+    {
+      id: "M5-Q5",
+      prompt: "Simplify: 5x² × 2x",
+      choices: ["10x", "10x²", "10x³", "7x³"],
+      answer: 2,
+      explanation: "Multiply the numbers (5 × 2 = 10) and add the powers of x (2 + 1 = 3): 10x³.",
+    },
+    {
+      id: "M5-Q6",
+      prompt: "Which expression is equivalent to 6x + 9?",
+      choices: ["3(2x + 3)", "2(3x + 9)", "6(x + 9)", "9(x + 6)"],
+      answer: 0,
+      explanation: "3(2x + 3) = 6x + 9, matching the original expression.",
+    },
+  ],
+};

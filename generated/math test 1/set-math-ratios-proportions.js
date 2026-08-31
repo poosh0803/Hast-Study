@@ -1,0 +1,51 @@
+export default {
+  id: "M2",
+  week: 1,
+  weekTitle: "Number & Pattern",
+  title: "Ratios & Proportions",
+  topic: "Number & Pattern",
+  questions: [
+    {
+      id: "M2-Q1",
+      prompt: "Simplify the ratio 12:16 to its simplest form.",
+      choices: ["3:4", "4:3", "6:8", "2:3"],
+      answer: 0,
+      explanation: "Both numbers share a highest common factor of 4: 12÷4 = 3, 16÷4 = 4.",
+    },
+    {
+      id: "M2-Q2",
+      prompt: "The ratio of boys to girls in a class is 3:5. If there are 15 girls, how many boys are there?",
+      choices: ["6", "9", "10", "12"],
+      answer: 1,
+      explanation: "15 girls ÷ 5 = 3 per part, so boys = 3 × 3 = 9.",
+    },
+    {
+      id: "M2-Q3",
+      prompt: "A recipe needs flour and sugar in the ratio 2:3. If 300g of sugar is used, how much flour is needed?",
+      choices: ["150g", "180g", "200g", "250g"],
+      answer: 2,
+      explanation: "300g ÷ 3 = 100g per part, so flour = 2 × 100g = 200g.",
+    },
+    {
+      id: "M2-Q4",
+      prompt: "$60 is shared in the ratio 2:3:5. What is the largest share?",
+      choices: ["$12", "$18", "$30", "$24"],
+      answer: 2,
+      explanation: "There are 10 parts total, so each part is $6. The largest share is 5 × $6 = $30.",
+    },
+    {
+      id: "M2-Q5",
+      prompt: "Which ratio is equivalent to 4:6?",
+      choices: ["2:3", "3:4", "6:4", "8:10"],
+      answer: 0,
+      explanation: "Dividing both sides of 4:6 by 2 gives 2:3.",
+    },
+    {
+      id: "M2-Q6",
+      prompt: "A map has a scale of 1:50000. Two towns are 4cm apart on the map. What is the real distance, in kilometres?",
+      choices: ["0.5km", "2km", "4km", "20km"],
+      answer: 1,
+      explanation: "4cm × 50000 = 200000cm = 2000m = 2km.",
+    },
+  ],
+};

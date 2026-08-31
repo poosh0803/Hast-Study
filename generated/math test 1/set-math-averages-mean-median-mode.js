@@ -1,0 +1,51 @@
+export default {
+  id: "M13",
+  week: 4,
+  weekTitle: "Statistics & Problem Solving",
+  title: "Averages: Mean, Median & Mode",
+  topic: "Statistics & Problem Solving",
+  questions: [
+    {
+      id: "M13-Q1",
+      prompt: "Find the mean of: 4, 8, 6, 10, 12.",
+      choices: ["6", "7", "8", "9"],
+      answer: 2,
+      explanation: "Sum = 4+8+6+10+12 = 40. Mean = 40 ÷ 5 = 8.",
+    },
+    {
+      id: "M13-Q2",
+      prompt: "Find the median of: 3, 7, 9, 2, 5.",
+      choices: ["3", "5", "7", "9"],
+      answer: 1,
+      explanation: "Sorted: 2, 3, 5, 7, 9. The middle value is 5.",
+    },
+    {
+      id: "M13-Q3",
+      prompt: "Find the mode of: 2, 4, 4, 6, 8, 4, 2.",
+      choices: ["2", "4", "6", "8"],
+      answer: 1,
+      explanation: "4 appears three times, more than any other value.",
+    },
+    {
+      id: "M13-Q4",
+      prompt: "Find the range of: 15, 22, 8, 30, 12.",
+      choices: ["14", "20", "22", "30"],
+      answer: 2,
+      explanation: "Range = largest − smallest = 30 − 8 = 22.",
+    },
+    {
+      id: "M13-Q5",
+      prompt: "The mean of 5 numbers is 12. What is their sum?",
+      choices: ["12", "17", "60", "65"],
+      answer: 2,
+      explanation: "Sum = mean × count = 12 × 5 = 60.",
+    },
+    {
+      id: "M13-Q6",
+      prompt: "Find the median of: 10, 12, 14, 16.",
+      choices: ["12", "13", "14", "15"],
+      answer: 1,
+      explanation: "With an even number of values, the median is the average of the two middle values: (12+14) ÷ 2 = 13.",
+    },
+  ],
+};

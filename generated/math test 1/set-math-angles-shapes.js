@@ -1,0 +1,51 @@
+export default {
+  id: "M11",
+  week: 3,
+  weekTitle: "Measurement & Geometry",
+  title: "Angles & Shapes",
+  topic: "Measurement & Geometry",
+  questions: [
+    {
+      id: "M11-Q1",
+      prompt: "What is the sum of the interior angles in a triangle?",
+      choices: ["90°", "180°", "270°", "360°"],
+      answer: 1,
+      explanation: "The interior angles of any triangle always add up to 180°.",
+    },
+    {
+      id: "M11-Q2",
+      prompt: "What is the sum of the interior angles in a quadrilateral?",
+      choices: ["180°", "270°", "360°", "450°"],
+      answer: 2,
+      explanation: "A quadrilateral can be split into two triangles, so its angles sum to 2 × 180° = 360°.",
+    },
+    {
+      id: "M11-Q3",
+      prompt: "Two angles on a straight line add up to 180°. If one angle is 65°, what is the other?",
+      choices: ["105°", "115°", "125°", "135°"],
+      answer: 1,
+      explanation: "180° − 65° = 115°.",
+    },
+    {
+      id: "M11-Q4",
+      prompt: "A right-angled triangle has one angle of 90° and another of 35°. What is the third angle?",
+      choices: ["45°", "55°", "65°", "75°"],
+      answer: 1,
+      explanation: "180° − 90° − 35° = 55°.",
+    },
+    {
+      id: "M11-Q5",
+      prompt: "What type of angle is 120°?",
+      choices: ["Acute", "Right", "Obtuse", "Reflex"],
+      answer: 2,
+      explanation: "An angle between 90° and 180° is obtuse.",
+    },
+    {
+      id: "M11-Q6",
+      prompt: "A regular hexagon's interior angles sum to 720°. What is the size of each interior angle?",
+      choices: ["100°", "108°", "120°", "135°"],
+      answer: 2,
+      explanation: "A regular hexagon has 6 equal angles, so each one is 720° ÷ 6 = 120°.",
+    },
+  ],
+};

@@ -1,0 +1,51 @@
+export default {
+  id: "M16",
+  week: 4,
+  weekTitle: "Statistics & Problem Solving",
+  title: "Multi-step Word Problems",
+  topic: "Statistics & Problem Solving",
+  questions: [
+    {
+      id: "M16-Q1",
+      prompt: "Tom buys 3 notebooks at $2.50 each and a pen for $1.20. How much change does he get from $20?",
+      choices: ["$10.30", "$11.30", "$12.30", "$9.30"],
+      answer: 1,
+      explanation: "Cost = (3 × $2.50) + $1.20 = $7.50 + $1.20 = $8.70. Change = $20 − $8.70 = $11.30.",
+    },
+    {
+      id: "M16-Q2",
+      prompt: "A train leaves at 9:15am and arrives at 11:40am. How long was the journey?",
+      choices: ["2h 15m", "2h 25m", "2h 35m", "3h 05m"],
+      answer: 1,
+      explanation: "From 9:15am to 11:15am is 2 hours, then 11:15am to 11:40am is 25 more minutes: 2h 25m total.",
+    },
+    {
+      id: "M16-Q3",
+      prompt: "A shop offers 20% off an $85 jacket. What is the sale price?",
+      choices: ["$17", "$65", "$68", "$70"],
+      answer: 2,
+      explanation: "20% of $85 is $17, so the sale price is $85 − $17 = $68.",
+    },
+    {
+      id: "M16-Q4",
+      prompt: "Sarah runs 3 laps of a 400m track every day for 5 days. How many kilometres does she run in total?",
+      choices: ["4.5km", "5km", "6km", "7.2km"],
+      answer: 2,
+      explanation: "3 × 400m = 1200m per day. Over 5 days: 1200 × 5 = 6000m = 6km.",
+    },
+    {
+      id: "M16-Q5",
+      prompt: "A recipe serving 4 people needs 300g of rice. How much rice is needed to serve 10 people?",
+      choices: ["600g", "700g", "750g", "800g"],
+      answer: 2,
+      explanation: "300g ÷ 4 = 75g per person. For 10 people: 75 × 10 = 750g.",
+    },
+    {
+      id: "M16-Q6",
+      prompt: "A tank holds 500L of water and is filled at a rate of 25L per minute. How long will it take to fill from empty?",
+      choices: ["15 min", "20 min", "25 min", "30 min"],
+      answer: 1,
+      explanation: "500 ÷ 25 = 20 minutes.",
+    },
+  ],
+};

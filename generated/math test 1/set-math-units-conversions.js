@@ -1,0 +1,51 @@
+export default {
+  id: "M9",
+  week: 3,
+  weekTitle: "Measurement & Geometry",
+  title: "Units & Conversions",
+  topic: "Measurement & Geometry",
+  questions: [
+    {
+      id: "M9-Q1",
+      prompt: "Convert 2.5km to metres.",
+      choices: ["25", "250", "2500", "25000"],
+      answer: 2,
+      explanation: "1km = 1000m, so 2.5km = 2.5 × 1000 = 2500m.",
+    },
+    {
+      id: "M9-Q2",
+      prompt: "Convert 750mL to litres.",
+      choices: ["0.075", "0.75", "7.5", "75"],
+      answer: 1,
+      explanation: "1000mL = 1L, so 750mL = 750 ÷ 1000 = 0.75L.",
+    },
+    {
+      id: "M9-Q3",
+      prompt: "How many grams are in 3.2kg?",
+      choices: ["320", "3200", "32000", "3.2"],
+      answer: 1,
+      explanation: "1kg = 1000g, so 3.2kg = 3.2 × 1000 = 3200g.",
+    },
+    {
+      id: "M9-Q4",
+      prompt: "Convert 90 minutes to hours.",
+      choices: ["1", "1.5", "1.9", "9"],
+      answer: 1,
+      explanation: "90 ÷ 60 = 1.5 hours.",
+    },
+    {
+      id: "M9-Q5",
+      prompt: "Convert 4m² to cm².",
+      choices: ["400", "4000", "40000", "400000"],
+      answer: 2,
+      explanation: "1m² = 10000cm² (100cm × 100cm), so 4m² = 4 × 10000 = 40000cm².",
+    },
+    {
+      id: "M9-Q6",
+      prompt: "A car travels at 60km/h. How far does it travel in 45 minutes?",
+      choices: ["30km", "40km", "45km", "50km"],
+      answer: 2,
+      explanation: "45 minutes is ¾ of an hour, so distance = 60 × ¾ = 45km.",
+    },
+  ],
+};

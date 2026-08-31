@@ -1,0 +1,51 @@
+export default {
+  id: "M6",
+  week: 2,
+  weekTitle: "Algebra & Equations",
+  title: "Solving Linear Equations",
+  topic: "Algebra & Equations",
+  questions: [
+    {
+      id: "M6-Q1",
+      prompt: "Solve for x: 2x − 3 = 11",
+      choices: ["4", "6", "7", "8"],
+      answer: 2,
+      explanation: "Add 3 to both sides: 2x = 14. Divide by 2: x = 7.",
+    },
+    {
+      id: "M6-Q2",
+      prompt: "Solve: x/4 + 2 = 6",
+      choices: ["8", "12", "16", "20"],
+      answer: 2,
+      explanation: "Subtract 2 from both sides: x/4 = 4. Multiply by 4: x = 16.",
+    },
+    {
+      id: "M6-Q3",
+      prompt: "Solve: 5(x − 2) = 20",
+      choices: ["4", "6", "8", "10"],
+      answer: 1,
+      explanation: "Divide both sides by 5: x − 2 = 4. Add 2: x = 6.",
+    },
+    {
+      id: "M6-Q4",
+      prompt: "Solve: 3x + 7 = x + 15",
+      choices: ["2", "4", "6", "8"],
+      answer: 1,
+      explanation: "Subtract x from both sides: 2x + 7 = 15. Subtract 7: 2x = 8. Divide by 2: x = 4.",
+    },
+    {
+      id: "M6-Q5",
+      prompt: "Solve: 2(x + 3) = 3(x − 1)",
+      choices: ["6", "7", "9", "11"],
+      answer: 2,
+      explanation: "Expand both sides: 2x + 6 = 3x − 3. Add 3 and subtract 2x: 9 = x.",
+    },
+    {
+      id: "M6-Q6",
+      prompt: "If 4x = 28, what is x?",
+      choices: ["6", "7", "8", "9"],
+      answer: 1,
+      explanation: "Divide both sides by 4: x = 7.",
+    },
+  ],
+};

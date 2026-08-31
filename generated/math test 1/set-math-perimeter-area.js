@@ -1,0 +1,51 @@
+export default {
+  id: "M10",
+  week: 3,
+  weekTitle: "Measurement & Geometry",
+  title: "Perimeter & Area",
+  topic: "Measurement & Geometry",
+  questions: [
+    {
+      id: "M10-Q1",
+      prompt: "Find the perimeter of a rectangle with length 8cm and width 5cm.",
+      choices: ["13cm", "26cm", "40cm", "20cm"],
+      answer: 1,
+      explanation: "Perimeter = 2 × (length + width) = 2 × (8 + 5) = 26cm.",
+    },
+    {
+      id: "M10-Q2",
+      prompt: "Find the area of a rectangle with length 9cm and width 4cm.",
+      choices: ["13cm²", "26cm²", "36cm²", "40cm²"],
+      answer: 2,
+      explanation: "Area = length × width = 9 × 4 = 36cm².",
+    },
+    {
+      id: "M10-Q3",
+      prompt: "Find the area of a triangle with base 10cm and height 6cm.",
+      choices: ["16cm²", "30cm²", "60cm²", "36cm²"],
+      answer: 1,
+      explanation: "Area = ½ × base × height = ½ × 10 × 6 = 30cm².",
+    },
+    {
+      id: "M10-Q4",
+      prompt: "A square has a perimeter of 32cm. What is its area?",
+      choices: ["32cm²", "48cm²", "64cm²", "96cm²"],
+      answer: 2,
+      explanation: "Side length = 32 ÷ 4 = 8cm, so area = 8 × 8 = 64cm².",
+    },
+    {
+      id: "M10-Q5",
+      prompt: "Find the circumference of a circle with radius 7cm (use π ≈ 22/7).",
+      choices: ["22cm", "44cm", "49cm", "154cm"],
+      answer: 1,
+      explanation: "Circumference = 2πr = 2 × 22/7 × 7 = 44cm.",
+    },
+    {
+      id: "M10-Q6",
+      prompt: "A rectangular garden is 12m by 7m. What is its area?",
+      choices: ["19m²", "38m²", "84m²", "96m²"],
+      answer: 2,
+      explanation: "Area = 12 × 7 = 84m².",
+    },
+  ],
+};

@@ -1,0 +1,51 @@
+export default {
+  id: "M7",
+  week: 2,
+  weekTitle: "Algebra & Equations",
+  title: "Substitution & Formulas",
+  topic: "Algebra & Equations",
+  questions: [
+    {
+      id: "M7-Q1",
+      prompt: "If a = 3 and b = 4, find a² + b².",
+      choices: ["12", "24", "25", "49"],
+      answer: 2,
+      explanation: "a² + b² = 3² + 4² = 9 + 16 = 25.",
+    },
+    {
+      id: "M7-Q2",
+      prompt: "The formula for speed is s = d/t. If d = 120km and t = 3h, find s.",
+      choices: ["30", "36", "40", "45"],
+      answer: 2,
+      explanation: "s = 120 ÷ 3 = 40km/h.",
+    },
+    {
+      id: "M7-Q3",
+      prompt: "The formula for perimeter is P = 2(l + w). Find P when l = 5 and w = 3.",
+      choices: ["8", "15", "16", "30"],
+      answer: 2,
+      explanation: "P = 2(5 + 3) = 2 × 8 = 16.",
+    },
+    {
+      id: "M7-Q4",
+      prompt: "If F = (9/5)C + 32, find F when C = 20.",
+      choices: ["52", "60", "68", "72"],
+      answer: 2,
+      explanation: "F = (9/5) × 20 + 32 = 36 + 32 = 68.",
+    },
+    {
+      id: "M7-Q5",
+      prompt: "If A = ½bh, find A when b = 8 and h = 5.",
+      choices: ["13", "20", "40", "18"],
+      answer: 1,
+      explanation: "A = ½ × 8 × 5 = ½ × 40 = 20.",
+    },
+    {
+      id: "M7-Q6",
+      prompt: "If v = u + at, find v when u = 10, a = 2, and t = 3.",
+      choices: ["13", "15", "16", "18"],
+      answer: 2,
+      explanation: "v = 10 + (2 × 3) = 10 + 6 = 16.",
+    },
+  ],
+};

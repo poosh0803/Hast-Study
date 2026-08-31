@@ -1,0 +1,51 @@
+export default {
+  id: "M14",
+  week: 4,
+  weekTitle: "Statistics & Problem Solving",
+  title: "Probability Basics",
+  topic: "Statistics & Problem Solving",
+  questions: [
+    {
+      id: "M14-Q1",
+      prompt: "A fair six-sided die is rolled. What is the probability of rolling a 4?",
+      choices: ["1/6", "1/4", "1/3", "1/2"],
+      answer: 0,
+      explanation: "There is one 4 out of six equally likely outcomes, so the probability is 1/6.",
+    },
+    {
+      id: "M14-Q2",
+      prompt: "A bag has 3 red, 2 blue, and 5 green marbles. What is the probability of picking a blue marble?",
+      choices: ["1/5", "1/2", "2/5", "3/10"],
+      answer: 0,
+      explanation: "There are 10 marbles in total and 2 are blue, so the probability is 2/10 = 1/5.",
+    },
+    {
+      id: "M14-Q3",
+      prompt: "A coin is flipped twice. What is the probability of getting two heads?",
+      choices: ["1/2", "1/3", "1/4", "1/8"],
+      answer: 2,
+      explanation: "Each flip has a 1/2 chance of heads, so two heads in a row is 1/2 × 1/2 = 1/4.",
+    },
+    {
+      id: "M14-Q4",
+      prompt: "What is the probability of rolling an even number on a standard die?",
+      choices: ["1/6", "1/3", "1/2", "2/3"],
+      answer: 2,
+      explanation: "3 of the 6 outcomes (2, 4, 6) are even, so the probability is 3/6 = 1/2.",
+    },
+    {
+      id: "M14-Q5",
+      prompt: "A spinner has 8 equal sections numbered 1–8. What is the probability of landing on a number greater than 5?",
+      choices: ["1/8", "3/8", "1/2", "5/8"],
+      answer: 1,
+      explanation: "The numbers 6, 7, and 8 are greater than 5 — that's 3 out of 8 sections.",
+    },
+    {
+      id: "M14-Q6",
+      prompt: "If the probability of rain tomorrow is 0.3, what is the probability it does NOT rain?",
+      choices: ["0.3", "0.5", "0.7", "1.3"],
+      answer: 2,
+      explanation: "Probabilities of complementary events add up to 1, so 1 − 0.3 = 0.7.",
+    },
+  ],
+};
