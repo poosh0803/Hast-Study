@@ -36,7 +36,7 @@ npm run start
 
 ### Running under pm2
 
-`ecosystem.config.js` runs `npm run dev` under pm2, not a production
+`ecosystem.config.js` runs `next dev` under pm2, not a production
 build — on purpose, see the comment at the top of that file: content
 uploads only take effect live under `next dev` (a production build bakes
 `content/` imports into the compiled bundle). For a single-user LAN app
@@ -47,6 +47,22 @@ pm2 start ecosystem.config.js
 pm2 save        # persist across reboots
 pm2 startup     # one-time: prints the OS boot-hook command to run
 ```
+
+Two things baked into that config from hitting them for real on the LAN
+deployment, worth knowing before touching it:
+
+- **`exec_mode: "fork"` is required, explicitly.** On at least pm2 v7.0.3,
+  omitting `exec_mode` entirely still defaulted to **cluster** mode, which
+  doesn't work with `next dev` (single-instance, file-watching, in-memory
+  build cache) — it crash-loops. Don't remove that line or add `-i`.
+- **Next.js 16 needs Node ≥20.9.0.** If the host's system Node is older
+  (check `node --version`) and you don't want to upgrade it system-wide
+  (e.g. it'd affect other pm2 apps on the same box), install a newer Node
+  via `nvm` in isolation — `nvm install 20`, don't run `nvm alias default`
+  — and point `resolveInterpreter()` at its absolute binary path
+  (`~/.nvm/versions/node/vX.Y.Z/bin/node`). The function already falls
+  back to plain `"node"` when that path doesn't exist, so the same file
+  works unmodified on a machine where the default Node is new enough.
 
 Switching to a production build instead (better performance, but you have
 to `npm run build && pm2 restart hast-study` after every content upload)
@@ -332,6 +348,40 @@ bigger change — a new route under `app/`, an entry in `components/NavBar.js`,
 an entry in `lib/content-manifest.js`'s `SUBJECTS`, and a new
 `content/<tab>/`. Ask before doing that; it touches more than the
 content-only path above.
+
+## Access control
+
+`proxy.js` (Next 16's renamed `middleware.js` — same mechanism, just a
+different file/export name; see `node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md`
+once dependencies are installed, since that doc isn't part of this repo)
+gates the **entire site behind one shared password** via HTTP Basic Auth —
+every page and every API route, since none of the API routes
+(upload/delete/export/progress/draft/import-evaluation) have any auth of
+their own. With no `matcher` exported, it runs on every request; that's
+deliberate, not an oversight — carving out exceptions risks leaving a
+route accidentally unprotected.
+
+The password lives in `SITE_PASSWORD`, read from `.env.local` (gitignored,
+same as everything else `.env*` — never commit it). **If `SITE_PASSWORD`
+isn't set, every request gets a 401** — proxy.js fails closed, not open,
+so a missing/misconfigured password locks the site down instead of
+silently leaving it open.
+
+```bash
+# .env.local — create this, it's gitignored
+SITE_PASSWORD=choose-a-real-password-here
+```
+
+The browser's native login prompt caches credentials per-origin for the
+session and re-sends them automatically on every subsequent request —
+there's no cookie/session code, nothing to log out of short of closing
+the browser (or restarting it, or clearing site data for the origin).
+
+On the deployed server, the same `.env.local` needs to exist in
+`/root/Hast-Study` (or wherever the repo lives there) — it's server-local
+config, not something `git pull` brings in. After changing it, restart
+pm2 (`pm2 restart hast-study`) since env vars are only read at process
+start.
 
 ## Stack
 
