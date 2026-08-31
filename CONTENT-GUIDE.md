@@ -79,7 +79,15 @@ actual image file, and never HTML/SVG markup either** (see "Output
 format" above) — which is exactly what makes it something you (an AI
 writing this JS file) can generate directly, the same way you'd write a
 `questions` array. Reach for one of those three first; `figures` and
-`images` below are for the cases that genuinely don't fit.
+`images` below are for the cases that genuinely don't fit. All five
+fields work identically on **any** subject that has `questions` — Math,
+Abstract, or Read — even though some of the worked examples below (the
+weighing-balance `diagrams`, the rotating-shape `figures`) happen to be
+framed as Abstract-style puzzles. A Math question can use a balance
+diagram as an algebra "solve for x" problem, a Read question could use a
+`tables` entry as a comprehension source, and so on — pick whichever
+field actually matches the content, not whichever subject the example
+happened to be written under.
 
 ### `tables`
 
@@ -247,9 +255,13 @@ using that exact filename. Text generation can't produce a real image
 file; don't try, don't describe one in prose as if it were the image, and
 don't invent a plausible-looking filename hoping it exists — pick a
 clear, descriptive filename and tell whoever is running you what to
-upload and call it. If a whole question depends on picture detail you
-can't respond to until it's uploaded, say so plainly in your reply
-outside the file, rather than guessing at content you can't see.
+upload and call it. Say this explicitly, in your reply, *outside* the
+file (see "Output format" above — the file itself stays just the file) —
+a `caption`/`alt` inside the data isn't enough on its own, since nothing
+displays those until the picture is actually uploaded and the page is
+loaded. If a whole question depends on picture detail you can't respond
+to until it's uploaded, say so plainly there too, rather than guessing at
+content you can't see.
 
 ## Math
 
