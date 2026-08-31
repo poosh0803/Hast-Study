@@ -79,6 +79,12 @@ is a one-line change in `ecosystem.config.js` — see the comment there.
   evaluation" below): overall notes from each import at the top, then
   per-subject, per-set specific notes with a link back to the set. Empty
   until something's actually been imported.
+- **Guide** — renders `CONTENT-GUIDE.md` (read live off disk, so this page
+  can never drift out of sync with that file) with a **Copy guide** button.
+  Meant to be pasted straight into any AI chat, alongside what
+  subject/topic you want, so it can write a ready-to-upload content file
+  without needing repo access — see "Adding study content" above for the
+  actual shape it documents.
 
 Plus **Admin**, set apart on the right of the nav (not one of the study
 tabs) — lists every uploaded content file across all four subjects with a
@@ -109,6 +115,7 @@ app/
   write/[id]/page.js     one prompt's page — timer + autosaving draft
   admin/page.js         Admin tab — lists + removes uploaded content files
   evaluations/page.js    Evaluations tab — every imported note, see "Export & evaluation"
+  guide/page.js           Guide tab — renders CONTENT-GUIDE.md with a copy button
 
 components/
   NavBar.js            top nav, highlights the active tab
@@ -122,6 +129,7 @@ components/
   PromptView.js           last-resort fallback (raw field dump)
   AdminFileList.js       the checkboxes + Export/Delete selected on the Admin tab
   EvaluationImporter.js   the Import evaluation file button on the Admin tab
+  CopyGuideButton.js      the Copy guide button on the Guide tab
 
 content/
   abstract/manifest.js  auto-generated, exports ABSTRACT_SETS

@@ -10,6 +10,7 @@ const TABS = [
   { href: "/read", label: "Read" },
   { href: "/write", label: "Write" },
   { href: "/evaluations", label: "Evaluations" },
+  { href: "/guide", label: "Guide" },
 ];
 
 export default function NavBar() {
